@@ -28,8 +28,6 @@ def find_files():
         'http://eda.ru/recepty/salaty',
         'http://eda.ru/recepty/vypechka-deserty']
 
-    ingredients = []
-    dishes = []
     urls = possible_beginnings.copy()
     for url in urls:
         for possible_beginning in possible_beginnings:
@@ -51,7 +49,8 @@ def find_files():
 
 list_of_links = find_files()
 list_of_receipts = [lambda x: 'recepty' in x for x in list_of_links]
-url = 'https://eda.ru/recepty/salaty/teplij-kartofelnij-salat-s-maslinami-i-percem-21445'
+end = 'teplij-kartofelnij-salat-s-maslinami-i-percem-21445'
+url = 'https://eda.ru/recepty/salaty/' + end
 data = requests.get(url).text
 tree = html.fromstring(data)
 title = tree.xpath('//div[@class = "title"]')[0]
