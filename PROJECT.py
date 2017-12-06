@@ -40,13 +40,13 @@ def find_files(urls=possible_beginnings.copy()):
                             address = 'https://eda.ru' + a['href']
                         if address not in urls and 'recepty' in address:
                             urls.append(address)
-                            #print(i)
-                            #print(address)
+                            # print(i)
+                            # print(address)
                             i += 1
                     except KeyError:
                         #print('key error')
                         pass
-    urls=[x for x in urls if 'recepty' in x and x.count('/')==5]
+    urls = [x for x in urls if 'recepty' in x and x.count('/') == 5]
     return urls
 
 
@@ -58,6 +58,7 @@ def parse_links(list_of_links):
     ingredients_list = []
     doses_list = []
     categories = []
+    receipt_list = []
     counter = 0
     for url in list_of_links:
         counter += 1
@@ -67,7 +68,6 @@ def parse_links(list_of_links):
             percent = round(percent, 3)
             print('Extracting data ' + str(percent) + ' percent completed')
         splitted = url.split('/')
-        categories.append(splitted[len(splitted) - 2])
         res = urllib.request.urlopen(url).read()
         bs0 = BeautifulSoup(res, 'lxml')
         name = (bs0.find('h1', 'recipe__name g-h1'))
@@ -90,14 +90,24 @@ def parse_links(list_of_links):
                 'content-item__measure js-ingredient-measure-amount'))
         doses = re.sub("<.*?>", " ", str(doses))[1:][:-1].split(' ,  ')
         doses = [x.strip() for x in doses]
-        titles_list.append(name)
-        ingredients_list.append(ingredients)
-        doses_list.append(doses)
+        if name != 'None':
+            bs2 = str(bs0).split('"recipeInstructions":["')
+            receipt = bs2[1].split('"],"recipeYield":')
+            receipt = re.sub('","', '\n', receipt[0])
+            titles_list.append(name)
+            ingredients_list.append(ingredients)
+            doses_list.append(doses)
+            receipt_list.append(receipt)
+            categories.append(splitted[len(splitted) - 2])
     answer = pd.DataFrame({'category': categories,
                            'name': titles_list,
+                           'receipt': receipt_list,
                            'ingredients': ingredients_list,
-                           'doses': doses})
+                           'doses': doses_list})
     return answer
-answer=parse_links(list_of_links)
+
+
+answer = parse_links(list_of_links)
+answer.to_csv('Data.csv', sep=';')
 #end = 'teplij-kartofelnij-salat-s-maslinami-i-percem-21445'
 #url = 'https://eda.ru/recepty/salaty/' + end
