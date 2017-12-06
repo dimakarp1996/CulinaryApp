@@ -12,6 +12,7 @@ import requests
 import re
 import urllib.request
 import pandas as pd
+import Levenshtein
 possible_beginnings = [
     'http://eda.ru/recepty/zavtraki',
     'http://eda.ru/recepty/osnovnye-blyuda',
@@ -95,7 +96,7 @@ def parse_links(list_of_links):
             receipt = bs2[1].split('"],"recipeYield":')
             receipt = re.sub('","', '\n', receipt[0])
             titles_list.append(name)
-            ingredients_list.append(ingredients)
+            ingredients_list.append(set(ingredients))
             doses_list.append(doses)
             receipt_list.append(receipt)
             categories.append(splitted[len(splitted) - 2])
@@ -106,8 +107,47 @@ def parse_links(list_of_links):
                            'doses': doses_list})
     return answer
 
+categories_ru=['салаты','закуски','соусы и маринады','выпечка и десерты','супы','напитки',
+             'паста и пицца','завтраки','бульоны','сэндвичи','ризотто','основные блюда']
+tab = parse_links(list_of_links)
+tab.to_csv('Data.csv', sep=';')
+ingredient_list= make_ingredients_list(tab)
+def make_category_list(tab):
 
-answer = parse_links(list_of_links)
-answer.to_csv('Data.csv', sep=';')
+    answer=[]
+    for i in tab.index:
+        answer=answer+([tab['category'][i]])
+    answer=list(set(answer))
+    return answer
+categories_en = make_category_list(tab)
+def make_ingredients_list(tab):
+    answer=[]
+    for i in tab.index:
+        answer=answer+(tab['ingredients'][i])
+    answer=list(set(answer))
+    return answer
+def make_ingredient_dict(tab):
+    answer={}
+    for i in tab.index:
+        if tab['category'][i] not in answer.keys():
+            answer[tab['category'][i]]=set(tab['ingredients'][i])
+        else:
+            answer[tab['category'][i]]=answer[tab['category'][i]]|set(tab['ingredients'][i])
+def predict_most_similar_ingredient(category_ru,user_input):#Assuming user is about to input N ingredients
+    #Levenschtein_distanse
+    answer=[]
+    for i in range()
+def predict_most_similar_by_ingredients(ingredient_list,N):
+    
+def choose_category(categories_ru,categories_en):
+    for i in range(n):
+        print('Введите '+str(i)+' для выбора категории '+str(categories_ru[i]))
+    inp=input()
+    category_index = int(inp)
+    category=categories_en[category_index]
+    return category
+def choose_ingredients(ingredient_dict, category):
+    this_category_ingredients = ingredients[]
+    #We have ingredient list and we predict N most similar receipts from the par
 #end = 'teplij-kartofelnij-salat-s-maslinami-i-percem-21445'
 #url = 'https://eda.ru/recepty/salaty/' + end
