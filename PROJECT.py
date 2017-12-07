@@ -23,4 +23,5 @@ def find_files():
 
 list_of_links = find_files()
 list_of_receipts = [lambda x: 'recepty' in x for x in list_of_links]
+print('This app is about choosing the right dish with the certain ingredients from certain category')
 # show what you've found:
