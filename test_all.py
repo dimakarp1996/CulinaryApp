@@ -5,9 +5,9 @@ Created on Fri Dec  8 18:13:48 2017
 @author: DK
 """
 
-from Culinary_App import choose_category
-from Culinary_app import possible_beginnings
-from Culinary_App import find_files
+from CulinaryApp import choose_category
+from CulinaryApp import possible_beginnings
+from CulinaryApp import find_files
 import mock
 import pandas as pd
 import os
