@@ -187,9 +187,13 @@ def ingredient_search(user_ingredients, category_tab, n=3, print_=True):
 
 
 def main():
-    list_of_links = find_files()
-    tab = parse_links(list_of_links)
-    tab.to_csv(os.getcwd() + '\\Data.csv', sep=';')
+    generate_list = False
+    if generate_list:
+        list_of_links = find_files()
+        tab = parse_links(list_of_links)
+        tab.to_csv(os.getcwd() + '\\Data.csv', sep=';')
+    else:
+        tab = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
     user_category = choose_category(tab)
     # НАДО - давать tab веб-приложению и взамен получать user_category
     category_tab = tab[tab['category'] == user_category]
@@ -197,5 +201,6 @@ def main():
     # НАДО - давать tab веб-приложению и взамен получать user_ingredients
     answer = ingredient_search(user_ingredients, category_tab)
     del answer
+
     # НАДО - передавать answer в веб-приложение
 main()
