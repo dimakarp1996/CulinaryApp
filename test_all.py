@@ -5,19 +5,22 @@ Created on Fri Dec  8 18:13:48 2017
 @author: DK
 """
 
-from CulinaryApp import choose_category
-from CulinaryApp import possible_beginnings
-from CulinaryApp import find_files
+from Culinary_App import choose_category
+from Culinary_app import possible_beginnings
+from Culinary_App import find_files
 import mock
+import pandas as pd
+import os
 
 
 def test_choose_category():
     categories_en = ['zakuski', 'napitki', 'zavtraki', 'supy',
                      'salaty', 'vypechka-deserty', 'rizotto', 'bulony',
                      'pasta-picca', 'osnovnye-blyuda', 'sendvichi', 'sousy-marinady']
+    tab = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
     for i in range(12):
         with mock.patch('builtins.input', side_effect=str(i)):
-            assert choose_category() == categories_en[i]
+            assert choose_category(tab) == categories_en[i]
 
 
 def test_find_files():
