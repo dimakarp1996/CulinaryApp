@@ -22,7 +22,7 @@ setup(
         "urllib.request",
         "pandas",
         "os",
-        "Levenshtein"
+        "python-Levenshtein"
     ],
     setup_requires=[
         "pytest-runner",
