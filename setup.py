@@ -19,9 +19,8 @@ setup(
         "lxml",
         "requests",
         "re",
-        "urllib.request",
+        "urllib",
         "pandas",
-        "os",
         "python-Levenshtein"
     ],
     setup_requires=[
