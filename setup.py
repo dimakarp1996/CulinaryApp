@@ -18,8 +18,6 @@ setup(
         "bs4",
         "lxml",
         "requests",
-        "re",
-        "urllib",
         "pandas",
         "python-Levenshtein"
     ],
