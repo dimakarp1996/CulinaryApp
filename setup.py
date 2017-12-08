@@ -7,12 +7,20 @@ from setuptools import setup
 setup(
     name="CulinaryApp",
     version="0.0.0",
-    author="Dmitry Karpov, Vyacheslav Trifonov, Andrej Lapushkin",
+    author="Dmitry Karpov, Vyacheslav Trifonov etc",
     author_email="dimakarp1996@yandex.ru",
     url="https://github.com/dimakarp1996/CulinaryApp",
     license="MIT",
     packages=[
-        "CulinaryApp"
+        "CulinaryApp",
+        "bs4",
+        "lxml",
+        "requests",
+        "re",
+        "urllib.request",
+        "pandas",
+        "os",
+        "Levenshtein"
     ],
     install_requires=[
     ],
