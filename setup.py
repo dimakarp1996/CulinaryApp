@@ -12,7 +12,9 @@ setup(
     url="https://github.com/dimakarp1996/CulinaryApp",
     license="MIT",
     packages=[
-        "CulinaryApp",
+        "CulinaryApp"
+    ],
+    install_requires=[
         "bs4",
         "lxml",
         "requests",
@@ -22,8 +24,6 @@ setup(
         "os",
         "Levenshtein"
     ],
-    install_requires=[
-    ],
     setup_requires=[
         "pytest-runner",
         "pytest-pycodestyle",
@@ -32,7 +32,7 @@ setup(
     tests_require=[
         "pytest",
         "pycodestyle",
-        "mock"
+        "mock"     
     ],
     classifiers=[
         "Development Status :: 1 - Planning",
