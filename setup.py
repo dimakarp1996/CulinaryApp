@@ -29,7 +29,8 @@ setup(
     tests_require=[
         "pytest",
         "pycodestyle",
-        "mock"     
+        "mock",
+        "pandas"
     ],
     classifiers=[
         "Development Status :: 1 - Planning",
