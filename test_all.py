@@ -13,21 +13,6 @@ import pandas as pd
 import os
 
 
-def test_choose_category():
-    categories_en = ['zakuski', 'napitki', 'zavtraki', 'supy',
-                     'salaty', 'vypechka-deserty', 'rizotto', 'bulony',
-                     'pasta-picca', 'osnovnye-blyuda', 'sendvichi', 'sousy-marinady']
-    tab = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
-    # for i in range(len(categories_en)):
-    i = 9
-    j = str(i)
-    with mock.patch('builtins.input', side_effect=j):
-        # print(categories_en[int(side_effect)])
-        chosen = choose_category(tab)
-        print(chosen)
-        assert chosen == categories_en[i]
-
-
 def test_find_files():
     link_list = find_files()
     for link in link_list:
