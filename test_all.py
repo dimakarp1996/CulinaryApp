@@ -19,13 +19,13 @@ def test_choose_category():
                      'pasta-picca', 'osnovnye-blyuda', 'sendvichi', 'sousy-marinady']
     tab = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
     # for i in range(len(categories_en)):
-    for i in range(10):
-        j = str(i)
-        with mock.patch('builtins.input', side_effect=j):
-            # print(categories_en[int(side_effect)])
-            chosen = choose_category(tab)
-            print(chosen)
-            assert chosen == categories_en[i]
+    i = 9
+    j = str(i)
+    with mock.patch('builtins.input', side_effect=j):
+        # print(categories_en[int(side_effect)])
+        chosen = choose_category(tab)
+        print(chosen)
+        assert chosen == categories_en[i]
 
 
 def test_find_files():
