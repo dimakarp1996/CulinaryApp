@@ -1,3 +1,3 @@
 from CulinaryApp import main
-print(main())
+main()
 return 0
