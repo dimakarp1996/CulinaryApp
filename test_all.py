@@ -25,7 +25,7 @@ def test_choose_category():
                      'pasta-picca', 'osnovnye-blyuda', 'sendvichi', 'sousy-marinady']
     tab = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
     # for i in range(len(categories_en)):
-    for i in range(len(categories_en)):
+    for i in [5]:
         j = str(i)
         with mock.patch('raw_input', side_effect=j):
             # print(categories_en[int(side_effect)])
