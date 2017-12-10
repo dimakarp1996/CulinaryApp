@@ -187,7 +187,7 @@ def ingredient_search(user_ingredients, category_tab, n=3, print_=True):
 
 
 def main():
-    generate_list = False
+    generate_list = True
     if generate_list:
         list_of_links = find_files()
         tab = parse_links(list_of_links)
