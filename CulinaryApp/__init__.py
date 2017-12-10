@@ -191,7 +191,7 @@ def main():
     if generate_list:
         list_of_links = find_files()
         tab = parse_links(list_of_links)
-        tab.to_csv(os.getcwd() + '\\Data.csv', sep=';')
+        #tab.to_csv(os.getcwd() + '\\Data.csv', sep=';')
     else:
         tab = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
     user_category = choose_category(tab)
