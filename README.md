@@ -1,4 +1,4 @@
-This is our project at the 'Software Design' course.
+This is our project at the 'Software Design' course. 
 
 [![Build Status][travis-badge]][travis-url]
 [![Coverage][coverage-image]][coverage-url]
