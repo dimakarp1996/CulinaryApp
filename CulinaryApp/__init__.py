@@ -201,6 +201,6 @@ def main():
     # НАДО - давать tab веб-приложению и взамен получать user_ingredients
     answer = ingredient_search(user_ingredients, category_tab)
     del answer
-
+    
     # НАДО - передавать answer в веб-приложение
-main()
+
