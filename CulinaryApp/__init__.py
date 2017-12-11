@@ -226,7 +226,7 @@ def main():
         #tab.to_csv(os.getcwd() + '\\Data.csv', sep=';')
     else:
         tab = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
-    user_category = choose_category(tab)
+    user_category = choose_category()
     # НАДО - давать tab веб-приложению и взамен получать user_category
     category_tab = tab[tab['category'] == user_category]
     user_ingredients = choose_ingredients(tab)
