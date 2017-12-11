@@ -237,14 +237,16 @@ class BackEnd():
         def sort(answer, n):
             for i in range(len(answer)):
                 for j in range(len(answer)):
-                    if i < j and (num_match[answer[i]] < num_match[answer[j]]
-                                  or (num_match[answer[i]] == num_match[answer[j]]
-                                      and share_match[answer[i]] < share_match[answer[j]])):
+                    cond1 = num_match[answer[i]] < num_match[answer[j]]
+                    cond2 = num_match[answer[i]] == num_match[answer[j]]
+                    cond3 = share_match[answer[i]] < share_match[answer[j]]
+                    if i < j and cond1 or (cond2 and cond3):
                         answer[i], answer[j] = answer[j], answer[i]
             return answer[:n]
         for i in self.user_tab.index:
             num_match[i] = sum(
-                [x in self.user_ingredients for x in self.user_tab['ingredients'][i]])
+                [x in self.user_ingredients
+                 for x in self.user_tab['ingredients'][i]])
             share_match[i] = num_match[i] / \
                 len(self.user_tab['ingredients'][i])
             answer.append(i)
@@ -265,7 +267,7 @@ class BackEnd():
 
 
 class CulinaryApp():
-    def __init__(self, max_num=300, load=False,
+    def __init__(self, max_num=1000, load=False,
                  print_=True, printstep=50, num_answers=3):
         self.Getter = LinkGetter(max_num, load, print_, printstep)
         self.Getter.get_links()
