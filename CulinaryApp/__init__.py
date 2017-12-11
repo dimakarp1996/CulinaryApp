@@ -117,8 +117,8 @@ class LinkGetter:
 
 
 class WebsiteInteractor():
-    def __init__():
-        pass
+    # def __init__():
+        # pass
 
     def choose_category(self):
         # Предлагаем выйти одну из этих категорий
@@ -218,7 +218,7 @@ class BackEnd():
         self.tab = tab
         self.user_tab = None
         self.user_ingredients = None
-        self.Interactor = WebsiteInteractor(self.tab)
+        self.Interactor = WebsiteInteractor()
 
     def choose_category(self):
         self.category = self.Interactor.choose_category()
@@ -262,18 +262,18 @@ class BackEnd():
             final_tab.loc[i, 'ingredients'] = tmp
             final_tab.loc[i, 'share_match'] = share_match[i]
             final_tab.loc[i, 'num_match'] = num_match[i]
-        self.WebsiteInteractor.get_final_tab(final_tab)
+        self.Interactor.get_final_tab(final_tab)
         return final_tab
 
 
 class CulinaryApp():
-    def __init__(self, max_num=1000, load=False,
-                 print_=True, printstep=50, num_answers=3):
+    def __init__(self, max_num=100, load=False,
+                 print_=True, printstep=5, num_answers=3):
         self.Getter = LinkGetter(max_num, load, print_, printstep)
         self.Getter.get_links()
         self.tab = self.Getter.get_tab()
         self.BackEnd = BackEnd(self.tab)
-        self.run(num_answers, print_)
+        self.run(num_answers)
         self.last_final_tab = None
 
     def run(self, num_answers=3):
