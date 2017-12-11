@@ -32,10 +32,10 @@ def find_files(urls=possible_beginnings.copy(), max_num=200):
                         try:
                             if a['href'][:9] == '/recepty/':
                                 address = 'https://eda.ru' + a['href']
-                            u1 = address not in urls
-                            u2 = address.count('/') == 5
-                            if u1 and u2:
-                                urls.append(address)
+                                u1 = address not in urls
+                                u2 = address.count('/') == 5
+                                if u1 and u2:
+                                    urls.append(address)
                                 # print(i)
                                 # print(address)
                                 # i += 1
