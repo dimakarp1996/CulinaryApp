@@ -17,5 +17,3 @@ def test_find_files():
     for link in link_list:
         assert any(possible_beginnings in link)
 
-        
-
