@@ -1,17 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec 11 20:11:47 2017
-
-@author: DK
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec 11 16:07:35 2017
-@author: tcs-user
-"""
-
 from bs4 import BeautifulSoup
 from lxml import html
 import requests
@@ -47,14 +33,15 @@ def find_files(urls=possible_beginnings.copy(), max_num=200):
                             address = a['href']
                             if a['href'][:9] == '/recepty/':
                                 address = 'https://eda.ru' + a['href']
-                            if address not in urls and 'recepty' in address and address.count(
-                                    '/') == 5:
+                            if address not in urls
+							and 'recepty' in address
+							and address.count('/') == 5:
                                 urls.append(address)
                                 # print(i)
                                 # print(address)
                                 # i += 1
                         except KeyError:
-                            #print('key error')
+#                            print('key error')
                             pass
         # urls = [x for x in urls if 'recepty' in x and x.count('/') == 5]
     return urls
@@ -195,7 +182,8 @@ def ingredient_search(user_ingredients, category_tab, n=3, print_=True):
         for i in range(len(answer)):
             for j in range(len(answer)):
                 if i < j and (num_match[answer[i]] < num_match[answer[j]] or (
-                        num_match[answer[i]] == num_match[answer[j]] and share_match[answer[i]] < share_match[answer[j]])):
+                        num_match[answer[i]] == num_match[answer[j]]
+						and share_match[answer[i]] < share_match[answer[j]])):
                     answer[i], answer[j] = answer[j], answer[i]
         return answer[:n]
     for i in category_tab.index:
@@ -229,7 +217,7 @@ def main():
     if generate_list:
         list_of_links = find_files()
         tab = parse_links(list_of_links)
-        #tab.to_csv(os.getcwd() + '\\Data.csv', sep=';')
+        tab.to_csv(os.getcwd() + '\\Data.csv', sep=';')
     else:
         tab = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
     user_category = choose_category()
