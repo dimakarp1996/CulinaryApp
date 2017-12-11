@@ -30,18 +30,17 @@ def find_files(urls=possible_beginnings.copy(), max_num=200):
                     soup = BeautifulSoup(requests.get(url).text, 'lxml')
                     for a in soup.find_all('a'):
                         try:
-                            address = a['href']
                             if a['href'][:9] == '/recepty/':
                                 address = 'https://eda.ru' + a['href']
-                            if address not in urls
-							and 'recepty' in address
-							and address.count('/') == 5:
+                            u1 = address not in urls
+                            u2 = address.count('/') == 5
+                            if u1 and u2:
                                 urls.append(address)
                                 # print(i)
                                 # print(address)
                                 # i += 1
                         except KeyError:
-#                            print('key error')
+                            #                            print('key error')
                             pass
         # urls = [x for x in urls if 'recepty' in x and x.count('/') == 5]
     return urls
@@ -182,8 +181,8 @@ def ingredient_search(user_ingredients, category_tab, n=3, print_=True):
         for i in range(len(answer)):
             for j in range(len(answer)):
                 if i < j and (num_match[answer[i]] < num_match[answer[j]] or (
-                        num_match[answer[i]] == num_match[answer[j]]
-						and share_match[answer[i]] < share_match[answer[j]])):
+                    num_match[answer[i]] == num_match[answer[j]]
+                        and share_match[answer[i]] < share_match[answer[j]])):
                     answer[i], answer[j] = answer[j], answer[i]
         return answer[:n]
     for i in category_tab.index:
