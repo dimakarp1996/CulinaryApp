@@ -14,6 +14,5 @@ import os
 
 def test_find_files():
     link_list = find_files()
-    for link in link_list:
-        assert any(x in link for x in possible_beginnings)
+    assert sum([link in beginning for link in link_list for beginning in possible_beginnings])>0
 
