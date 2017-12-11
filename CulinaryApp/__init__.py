@@ -1,18 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec 11 13:59:10 2017
-
-@author: tcs-user
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Dec  8 18:13:48 2017
-
-@author: DK
-"""
-
 from bs4 import BeautifulSoup
 from lxml import html
 import requests
@@ -22,18 +7,18 @@ import pandas as pd
 import os
 import Levenshtein
 possible_beginnings = [
-    'http://eda.ru/recepty/zavtraki',
-    'http://eda.ru/recepty/osnovnye-blyuda',
-    'http://eda.ru/recepty/sendvichi',
-    'http://eda.ru/recepty/sousy-marinady',
-    'http://eda.ru/recepty/bulony',
-    'http://eda.ru/recepty/napitki',
-    'http://eda.ru/recepty/rizotto',
-    'http://eda.ru/recepty/zakuski',
-    'http://eda.ru/recepty/pasta-picca',
-    'http://eda.ru/recepty/supy',
-    'http://eda.ru/recepty/salaty',
-    'http://eda.ru/recepty/vypechka-deserty']
+    'https://eda.ru/recepty/zavtraki',
+    'https://eda.ru/recepty/osnovnye-blyuda',
+    'https://eda.ru/recepty/sendvichi',
+    'https://eda.ru/recepty/sousy-marinady',
+    'https://eda.ru/recepty/bulony',
+    'https://eda.ru/recepty/napitki',
+    'https://eda.ru/recepty/rizotto',
+    'https://eda.ru/recepty/zakuski',
+    'https://eda.ru/recepty/pasta-picca',
+    'https://eda.ru/recepty/supy',
+    'https://eda.ru/recepty/salaty',
+    'https://eda.ru/recepty/vypechka-deserty']
 
 
 def find_files(urls=possible_beginnings.copy()):
