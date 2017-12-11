@@ -1,5 +1,10 @@
-This is our project at the 'Software Design' course. 
-
+Это наш проект по курсу "Архитектура ПО"
+Как установить:
+скачать репозиторий
+Как запустить:
+перейти в главную директорию проекта, набрать python CulinaryApp.py
+Как запустить юнит-тесты:
+перейти в главную директорию проекта, набрать python test_all.py
 [![Build Status][travis-badge]][travis-url]
 [![Coverage][coverage-image]][coverage-url]
 
