@@ -235,5 +235,4 @@ def main():
     del answer
 
 
-main()
 # НАДО - передавать answer в веб-приложение
