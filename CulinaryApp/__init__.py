@@ -1,3 +1,18 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Dec 11 13:59:10 2017
+
+@author: tcs-user
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Dec  8 18:13:48 2017
+
+@author: DK
+"""
+
 from bs4 import BeautifulSoup
 from lxml import html
 import requests
@@ -99,12 +114,32 @@ def parse_links(list_of_links):
 
 
 def choose_category(tab):
-    categories_ru = ['Закуски', 'Напитки', 'Завтраки', 'Супы',
-                     'Салаты', 'Выпечка и десерты', 'Ризотто', 'Бульоны',
-                     'Паста и пицца', 'Основные блюда', 'Сэндвичи', 'Соусы и маринады']
-    categories_en = ['zakuski', 'napitki', 'zavtraki', 'supy',
-                     'salaty', 'vypechka-deserty', 'rizotto', 'bulony',
-                     'pasta-picca', 'osnovnye-blyuda', 'sendvichi', 'sousy-marinady']
+    categories_ru = [
+        'Закуски',
+        'Напитки',
+        'Завтраки',
+        'Супы',
+        'Салаты',
+        'Выпечка и десерты',
+        'Ризотто',
+        'Бульоны',
+        'Паста и пицца',
+        'Основные блюда',
+        'Сэндвичи',
+        'Соусы и маринады']
+    categories_en = [
+        'zakuski',
+        'napitki',
+        'zavtraki',
+        'supy',
+        'salaty',
+        'vypechka-deserty',
+        'rizotto',
+        'bulony',
+        'pasta-picca',
+        'osnovnye-blyuda',
+        'sendvichi',
+        'sousy-marinady']
     n = len(categories_en)
     assert n == len(categories_ru)
     for i in range(n):
@@ -137,8 +172,9 @@ def choose_ingredients(tab):
             if this_dist < min_dist:
                 min_dist = this_dist
                 interpreted_ingredient = ingredient
-        print('То, что вы ввели, из имеющегося списка больше всего похоже на ' +
-              str(interpreted_ingredient))
+        print(
+            'То, что вы ввели, из имеющегося списка больше всего похоже на ' +
+            str(interpreted_ingredient))
         if interpreted_ingredient not in answer:
             print('Добавить это?  Введите ДА, чтобы добавить')
             if input().lower() == 'да':
@@ -156,8 +192,8 @@ def ingredient_search(user_ingredients, category_tab, n=3, print_=True):
     def sort(answer, n):
         for i in range(len(answer)):
             for j in range(len(answer)):
-                if i < j and (num_match[answer[i]] > num_match[answer[j]] or
-                              (num_match[answer[i]] == num_match[answer[j]] and share_match[answer[i]] > share_match[answer[j]])):
+                if i < j and (num_match[answer[i]] > num_match[answer[j]] or (
+                        num_match[answer[i]] == num_match[answer[j]] and share_match[answer[i]] > share_match[answer[j]])):
                     answer[i], answer[j] = answer[j], answer[i]
         return answer[:n]
     for i in category_tab.index:
@@ -201,6 +237,5 @@ def main():
     # НАДО - давать tab веб-приложению и взамен получать user_ingredients
     answer = ingredient_search(user_ingredients, category_tab)
     del answer
-    
-    # НАДО - передавать answer в веб-приложение
 
+    # НАДО - передавать answer в веб-приложение
