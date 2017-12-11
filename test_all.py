@@ -1,11 +1,11 @@
-#from CulinaryApp import possible_beginnings
-#from CulinaryApp import find_files
-#import mock
-#import pandas as pd
-#import os
+# from CulinaryApp import possible_beginnings
+# from CulinaryApp import find_files
+# import mock
+# import pandas as pd
+# import os
 
 
-#def test_find_files():
+# def test_find_files():
 #    link_list = find_files()
 #    assert sum(
 #        [link in beginning for link in link_list
