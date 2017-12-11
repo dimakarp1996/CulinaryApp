@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Dec 11 16:07:35 2017
+
+@author: tcs-user
+"""
+
 from bs4 import BeautifulSoup
 from lxml import html
 import requests
@@ -21,26 +29,28 @@ possible_beginnings = [
     'https://eda.ru/recepty/vypechka-deserty']
 
 
-def find_files(urls=possible_beginnings.copy()):
+def find_files(urls=possible_beginnings.copy(), max_num=200):
     i = 0
     for url in urls:
-        for possible_beginning in possible_beginnings:
-            if possible_beginning in url:
-                soup = BeautifulSoup(requests.get(url).text, 'lxml')
-                for a in soup.find_all('a'):
-                    try:
-                        address = a['href']
-                        if a['href'][:9] == '/recepty/':
-                            address = 'https://eda.ru' + a['href']
-                        if address not in urls and 'recepty' in address:
-                            urls.append(address)
-                            # print(i)
-                            # print(address)
-                            i += 1
-                    except KeyError:
-                        #print('key error')
-                        pass
-    urls = [x for x in urls if 'recepty' in x and x.count('/') == 5]
+        if len(urls) < max_num:
+            for possible_beginning in possible_beginnings:
+                if possible_beginning in url:
+                    soup = BeautifulSoup(requests.get(url).text, 'lxml')
+                    for a in soup.find_all('a'):
+                        try:
+                            address = a['href']
+                            if a['href'][:9] == '/recepty/':
+                                address = 'https://eda.ru' + a['href']
+                            if address not in urls and 'recepty' in address and address.count(
+                                    '/') == 5:
+                                urls.append(address)
+                                # print(i)
+                                # print(address)
+                                # i += 1
+                        except KeyError:
+                            #print('key error')
+                            pass
+        # urls = [x for x in urls if 'recepty' in x and x.count('/') == 5]
     return urls
 
 
@@ -173,12 +183,13 @@ def ingredient_search(user_ingredients, category_tab, n=3, print_=True):
     answer = []
     share_match = dict()
     num_match = dict()
+    print('Ищем самые похожие рецепты')
 
     def sort(answer, n):
         for i in range(len(answer)):
             for j in range(len(answer)):
-                if i < j and (num_match[answer[i]] > num_match[answer[j]] or (
-                        num_match[answer[i]] == num_match[answer[j]] and share_match[answer[i]] > share_match[answer[j]])):
+                if i < j and (num_match[answer[i]] < num_match[answer[j]] or (
+                        num_match[answer[i]] == num_match[answer[j]] and share_match[answer[i]] < share_match[answer[j]])):
                     answer[i], answer[j] = answer[j], answer[i]
         return answer[:n]
     for i in category_tab.index:
@@ -223,4 +234,6 @@ def main():
     answer = ingredient_search(user_ingredients, category_tab)
     del answer
 
-    # НАДО - передавать answer в веб-приложение
+
+main()
+# НАДО - передавать answer в веб-приложение
