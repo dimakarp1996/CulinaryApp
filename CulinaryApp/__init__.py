@@ -38,7 +38,7 @@ categories_en = [
 class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
     def __init__(self, max_num, load=False, print_=True, printstep=50):
         self.max_num = max_num  # верхняя граница числа ссылок
-        self.urls = possible_beginnings.copy()  
+        self.urls = possible_beginnings.copy()
         # начинаем искать с этих адресов
         self.answer = None
         self.print_ = print_  # если print_==True, выводим то, сколько % готово
