@@ -8,12 +8,12 @@ import random
 
 
 def test_LinkGetter():
-    obj = LinkGetter(1000)
+    obj = LinkGetter(100)
     obj.get_links()
     assert sum(
         [link in beginning for link in obj.urls
          for beginning in possible_beginnings]) == len(possible_beginnings)
-    tab = obj.get_tab()
+    tab = obj.get_tab(True, False)
     rus_letters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
     for i in tab.index:
         assert tab['category'][i] in categories_en
@@ -37,7 +37,9 @@ def test_BackEnd():
     random.seed(0)
     max_ingr = 8  # maximal number of ingredients
     max_trys = 30  # number of tries on each # of ingredients
-    tab = pd.read_csv('Data.csv', sep=';')
+    f = LinkGetter(300)
+    f.get_links()
+    tab = f.get_tab(True, False)
     for category in categories_en:
         print('Тестируем ' + str(category))
         user_tab = tab[tab['category'] == category]
