@@ -38,7 +38,7 @@ categories_en = [
 class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
     def __init__(self, max_num, load=False, print_=True, printstep=50):
         self.max_num = max_num  # верхняя граница числа ссылок
-        self.urls = possible_beginnings.copy()
+        self.urls = possible_beginnings.copy()  #
         # начинаем искать с этих адресов
         self.answer = None
         self.print_ = print_  # если print_==True, выводим то, сколько % готово
@@ -122,7 +122,7 @@ class LinkGetter:  # класс для получения ссылок и их �
                     receipt = bs2[1].split('"],"recipeYield":')
                     receipt = re.sub('","', '\n', receipt[0])
                     titles_list.append(name)
-                    ingredients_list.append(set(ingredients))
+                    ingredients_list.append(list(set(ingredients)))
                     doses_list.append(doses)
                     receipt_list.append(receipt)
                     categories.append(splitted[len(splitted) - 2])
@@ -176,7 +176,11 @@ class WebsiteInteractor():  # класс для взаимодействия с 
         N = min(N, 20)
         total_ingredients = set()
         for ingredient_portion in tab['ingredients']:
-            total_ingredients.update(ingredient_portion)
+            if isinstance(ingredient_portion, str):
+                ingr_list = ingredient_portion[2:][:-2].split("', '")
+                total_ingredients.update(ingr_list)
+            else:
+                total_ingredients.update(ingredient_portion)
         chosen_ingredients = list()
         while len(chosen_ingredients) < N:
             min_dist = 9999
@@ -220,9 +224,15 @@ class WebsiteInteractor():  # класс для взаимодействия с 
 
 
 class BackEnd():
-    def __init__(self, tab):
+    def __init__(self, tab, tab_is_loaded=True):
         # инициализируем класс таблицей
         self.tab = tab
+        if tab_is_loaded and isinstance(tab['ingredients'][tab.index[0]], str):
+            for i in self.tab.index:
+                self.tab.at[i, 'ingredients'] = (
+                    self.tab['ingredients'][i][2:][:-2].split("', '"))
+                self.tab.at[i, 'ingredients'] = (
+                    self.tab['doses'][i][2:][:-2].split("', '"))
         self.user_ingredients = None
         self.Interactor = WebsiteInteractor()
         # cjplftv класс для взаимодействия с сайтом
@@ -249,22 +259,22 @@ class BackEnd():
 
         def sort(answer, n):
             for i in range(len(answer)):
-                for j in range(len(answer)):
+                for j in range(i + 1, len(answer)):
                     cond1 = num_match[answer[i]] < num_match[answer[j]]
                     cond2 = num_match[answer[i]] == num_match[answer[j]]
                     cond3 = share_match[answer[i]] < share_match[answer[j]]
                     if i < j and cond1 or (cond2 and cond3):
                         answer[i], answer[j] = answer[j], answer[i]
             return answer[:n]
-        for i in self.user_tab.index:
+        for i in self.tab.index:
             num_match[i] = sum(
                 [x in self.user_ingredients
-                 for x in self.user_tab['ingredients'][i]])
+                 for x in self.tab['ingredients'][i]])
             share_match[i] = num_match[i] / \
-                len(self.user_tab['ingredients'][i])
+                len(self.tab['ingredients'][i])
             answer.append(i)
             answer = sort(answer, num_answers)
-        final_tab = self.user_tab.loc[answer, :]
+        final_tab = self.tab.loc[answer, :]
         # пишем ДОКУПИТЬ, если какой-то ингредиент пользователь не ввел
         final_tab['num_match'] = ''
         final_tab['share_match'] = ''
@@ -273,9 +283,9 @@ class BackEnd():
             for j in range(len(tmp)):
                 if tmp[j] not in self.user_ingredients:
                     tmp[j] = tmp[j] + ' - ДОКУПИТЬ!'
-            final_tab.loc[i, 'ingredients'] = tmp
-            final_tab.loc[i, 'share_match'] = share_match[i]
-            final_tab.loc[i, 'num_match'] = num_match[i]
+            final_tab.at[i, 'ingredients'] = tmp
+            final_tab.at[i, 'share_match'] = share_match[i]
+            final_tab.at[i, 'num_match'] = num_match[i]
         self.Interactor.get_final_tab(final_tab)
         return final_tab
 
@@ -286,7 +296,7 @@ class CulinaryApp():  # первый и гравный архитектурны�
         self.Getter = LinkGetter(max_num, load, print_, printstep)
         self.Getter.get_links()
         self.tab = self.Getter.get_tab()
-        self.BackEnd = BackEnd(self.tab)
+        self.BackEnd = BackEnd(self.tab, load)
         self.run(num_answers)
         self.last_final_tab = None
 
