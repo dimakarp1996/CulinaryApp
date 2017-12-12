@@ -7,7 +7,7 @@ import pandas as pd
 import os
 from Levenshtein import distance
 
-possible_beginnings = [
+possible_beginnings = [  # начала адресов
     'https://eda.ru/recepty/zavtraki',
     'https://eda.ru/recepty/osnovnye-blyuda',
     'https://eda.ru/recepty/sendvichi',
@@ -22,22 +22,23 @@ possible_beginnings = [
     'https://eda.ru/recepty/vypechka-deserty']
 
 
-class LinkGetter:
+class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
     def __init__(self, max_num, load=True, print_=True, printstep=50):
-        self.max_num = max_num
-        self.urls = possible_beginnings.copy()
+        self.max_num = max_num  # верхняя граница числа ссылок
+        self.urls = possible_beginnings.copy()  # начинаем искать с этих адресов
         self.answer = None
-        self.print_ = print_
-        self.printstep = printstep
-        if load:
+        self.print_ = print_  # если print_==True, выводим то, сколько % готово
+        self.printstep = printstep  # выводим каждый printstep шагов
+        if load:  # тогда просто считываем из файла
             self.answer = pd.read_csv(os.getcwd() + '\\Data.csv', sep=';')
 
     def get_links(self):
+        # на выходе заполненное ссылками self.urls
         i = 0
         str0 = 'Ищем для вас ссылки - '
         str1 = ' процентов завершено'
         for url in self.urls:
-            if len(self.urls) < self.max_num:
+            if len(self.urls) < self.max_num + len(possible_beginnings):
                 for possible_beginning in possible_beginnings:
                     if possible_beginning in url:
                         soup = BeautifulSoup(requests.get(url).text, 'lxml')
@@ -57,8 +58,9 @@ class LinkGetter:
                                             print(str0 + percent + str1)
                             except KeyError:
                                 pass
+    #       функция возвращает таблицу с рецептами
 
-    def get_tab(self, print_=False, save=True):
+    def get_tab(self, print_=False, save=True):  # если save - сохраняем
         if self.answer is not None:
             return self.answer
         else:
@@ -72,16 +74,18 @@ class LinkGetter:
             i = 0
             for url in self.urls:
                 i += 1
-                if self.print_ and i % self.printstep == 0:
+                if self.print_ and i % self.printstep == 0:  # печать
                     percent = 100 * i / len(self.urls)
                     percent = str(round(percent, 3))
                     print(str0 + str(percent) + str1)
                 splitted = url.split('/')
-                res = urllib.request.urlopen(url).read()
+                res = urllib.request.urlopen(url).read()  # делаем реквест
                 bs0 = BeautifulSoup(res, 'lxml')
+                # парсим имя
                 name = (bs0.find('h1', 'recipe__name g-h1'))
                 name = re.sub("<.*?>", " ", str(name))
                 name = re.sub('\n', '', name).strip()
+                # сужаем область поиска
                 text1 = str(bs0.find('div', 'ingredients-list__content'))
                 bs1 = BeautifulSoup(text1, 'lxml')
                 ingredients = (
@@ -89,8 +93,10 @@ class LinkGetter:
                         'span',
                         'js-tooltip js-tooltip-ingredient'))
                 ingredients = re.sub("<.*?>", " ", str(ingredients))
+                # убираем скобки и получаем список ингредиентов
                 ingredients = ingredients[1:][:-1].split(',  \n')
                 ingredients = [(x.strip()).lower() for x in ingredients]
+                # аналогично получаем список доз
                 doses = (
                     bs1.find_all(
                         'span',
@@ -116,9 +122,8 @@ class LinkGetter:
             return answer
 
 
-class WebsiteInteractor():
-    # def __init__():
-        # pass
+class WebsiteInteractor():  # класс для взаимодействия с вебсайтом
+    # класс будет переписан, скорее всего, как только реальный сайт будет
 
     def choose_category(self):
         # Предлагаем выйти одну из этих категорий
@@ -215,20 +220,27 @@ class WebsiteInteractor():
 
 class BackEnd():
     def __init__(self, tab):
+        # инициализируем класс таблицей
         self.tab = tab
-        self.user_tab = None
         self.user_ingredients = None
         self.Interactor = WebsiteInteractor()
+        # cjplftv класс для взаимодействия с сайтом
 
     def choose_category(self):
+        # выбираем категорию, пользуясь Interactor
+        # выбираем в таблице только те рецепты,
+        # у которых категория такая,какую ввел пользователь
         self.category = self.Interactor.choose_category()
-        self.user_tab = self.tab[self.tab['category'] == self.category]
+        self.tab = self.tab[self.tab['category'] == self.category]
 
     def choose_ingredients(self):
+        # получаем ингредиенты от WebsiteInteractor
         self.user_ingredients = self.Interactor.choose_ingredients(
             self.user_tab)
 
     def ingredient_search(self, num_answers=3):
+        # сортируем рецепты сначала по числу совпадающих ингредиентов
+        # потом по доле совпадающих ингредиентов
         answer = []
         share_match = dict()
         num_match = dict()
@@ -252,6 +264,7 @@ class BackEnd():
             answer.append(i)
             answer = sort(answer, num_answers)
         final_tab = self.user_tab.loc[answer, :]
+        # пишем ДОКУПИТЬ, если какой-то ингредиент пользователь не ввел
         final_tab['num_match'] = ''
         final_tab['share_match'] = ''
         for i in answer:
@@ -266,7 +279,7 @@ class BackEnd():
         return final_tab
 
 
-class CulinaryApp():
+class CulinaryApp():  # первый и гравный архитектурный уровень
     def __init__(self, max_num=100, load=False,
                  print_=True, printstep=5, num_answers=3):
         self.Getter = LinkGetter(max_num, load, print_, printstep)
@@ -277,7 +290,7 @@ class CulinaryApp():
         self.last_final_tab = None
 
     def run(self, num_answers=3):
-        while True:
+        while True:  # много раз в цикле вызываем бэкэнд
             print('Это наше приложение.')
             print('Хотите понять,что можно приготовить из ваших ингредиентов?')
             print('Нажмите В для выхода. ')
