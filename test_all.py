@@ -35,9 +35,9 @@ def test_BackEnd():
             assert final_tab['share_match'][i] >= this_max
         return True
     random.seed(0)
-    max_ingr = 8  # maximal number of ingredients
-    max_trys = 30  # number of tries on each # of ingredients
-    f = LinkGetter(300)
+    max_ingr = 3  # maximal number of ingredients
+    max_trys = 4  # number of tries on each # of ingredients
+    f = LinkGetter(200)
     f.get_links()
     tab = f.get_tab(True, False)
     for category in categories_en:
