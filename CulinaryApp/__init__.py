@@ -20,18 +20,30 @@ possible_beginnings = [  # начала адресов
     'https://eda.ru/recepty/supy',
     'https://eda.ru/recepty/salaty',
     'https://eda.ru/recepty/vypechka-deserty']
+categories_en = [
+    'zakuski',
+    'napitki',
+    'zavtraki',
+    'supy',
+    'salaty',
+    'vypechka-deserty',
+    'rizotto',
+    'bulony',
+    'pasta-picca',
+    'osnovnye-blyuda',
+    'sendvichi',
+    'sousy-marinady']
 
 
 class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
-    def __init__(self, max_num, load=True, print_=True, printstep=50):
+    def __init__(self, max_num, load=False, print_=True, printstep=50):
         self.max_num = max_num  # верхняя граница числа ссылок
-        self.urls = possible_beginnings.copy()  
-        # начинаем искать с этих адресов
+        self.urls = possible_beginnings.copy()  # начинаем искать с этих адресов
         self.answer = None
         self.print_ = print_  # если print_==True, выводим то, сколько % готово
         self.printstep = printstep  # выводим каждый printstep шагов
         if load:  # тогда просто считываем из файла
-            self.answer = pd.read_csv(os.getcwd() + '\\Data.csv', sep=';')
+            self.answer = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
 
     def get_links(self):
         # на выходе заполненное ссылками self.urls
@@ -119,7 +131,7 @@ class LinkGetter:  # класс для получения ссылок и их �
                                    'ingredients': ingredients_list,
                                    'doses': doses_list})
             if save:
-                answer.to_csv(os.getcwd() + '\\Data.csv', sep=';')
+                answer.to_csv(os.getcwd() + '/Data.csv', sep=';')
             return answer
 
 
@@ -142,19 +154,6 @@ class WebsiteInteractor():  # класс для взаимодействия с 
             'Основные блюда',
             'Сэндвичи',
             'Соусы и маринады']
-        categories_en = [
-            'zakuski',
-            'napitki',
-            'zavtraki',
-            'supy',
-            'salaty',
-            'vypechka-deserty',
-            'rizotto',
-            'bulony',
-            'pasta-picca',
-            'osnovnye-blyuda',
-            'sendvichi',
-            'sousy-marinady']
         n = len(categories_en)
         assert n == len(categories_ru)
         for i in range(n):
