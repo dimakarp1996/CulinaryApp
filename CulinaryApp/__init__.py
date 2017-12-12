@@ -25,7 +25,8 @@ possible_beginnings = [  # начала адресов
 class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
     def __init__(self, max_num, load=True, print_=True, printstep=50):
         self.max_num = max_num  # верхняя граница числа ссылок
-        self.urls = possible_beginnings.copy()  # начинаем искать с этих адресов
+        self.urls = possible_beginnings.copy()  
+        # начинаем искать с этих адресов
         self.answer = None
         self.print_ = print_  # если print_==True, выводим то, сколько % готово
         self.printstep = printstep  # выводим каждый printstep шагов
