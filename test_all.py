@@ -7,7 +7,7 @@ import random
 # import os
 
 
-def test_LinkGetter():
+def test_linkgetter():
     obj = LinkGetter(100)
     obj.get_links()
     assert sum(
@@ -24,7 +24,7 @@ def test_LinkGetter():
                     for x in tab['receipt'][i]]) > len(tab['receipt'][i]) / 2
 
 
-def test_BackEnd():
+def test_backend():
     def cond1(final_tab, i):
         return final_tab['num_match'][i] >= max(final_tab['num_match'][i + 1:])
 
