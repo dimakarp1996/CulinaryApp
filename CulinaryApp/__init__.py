@@ -38,7 +38,7 @@ categories_en = [
 
 class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
     def __init__(self, urls=possible_beginnings.copy(),
-                 max_num, load=False, print_=True, printstep=50):
+                 max_num=50, load=False, print_=True, printstep=50):
         self.max_num = max_num  # верхняя граница числа ссылок
         self.urls = urls
         # начинаем искать с этих адресов
@@ -344,11 +344,7 @@ def main():  # i is category
     A.run()
 
 
-def get_ingredientlist_by_category(i):
-    A = CulinaryApp(possible_beginnings[i], True)
-    answer = A.BackEnd.total_ingredients
-    answer = json.dumps(answer)
-    return answer
+
 
 
 def get_ingredients_by_ingredient_list(i, ingredient_list, num_answers=3):
