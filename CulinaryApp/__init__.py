@@ -318,7 +318,7 @@ class BackEnd():
 
 
 class CulinaryApp():  # первый и гравный архитектурный уровень
-    def __init__(self, urls=possible_beginnings[i], load=False, max_num=100,
+    def __init__(self, urls=possible_beginnings, load=False, max_num=100,
                  print_=True, printstep=5, num_answers=3):
         self.Getter = LinkGetter(urls, max_num, load, print_, printstep)
         self.Getter.get_links()
