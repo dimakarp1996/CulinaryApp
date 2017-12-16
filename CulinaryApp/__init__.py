@@ -167,8 +167,6 @@ class WebsiteInteractor():  # класс для взаимодействия с 
         for i in range(n):
             print('Введите ' + str(i) +
                   ' для выбора категории ' + str(categories_ru[i]))
-        possible_inputs = ['0', '1', '2', '3', '4', '5',
-                           '6', '7', '8', '9', '10', '11']
         category_index = None
         while category_index not in range(12):
             inp = input()
@@ -202,7 +200,7 @@ class WebsiteInteractor():  # класс для взаимодействия с 
             print('Вводите ингредиент')
             inputted_ingredient = input()
             inputted_ingredient.lower()
-            for ingredient in total_ingredients:
+            for ingredient in self.total_ingredients:
                 ingredient.lower()
                 this_dist = distance(ingredient, inputted_ingredient)
                 if this_dist < min_dist:
