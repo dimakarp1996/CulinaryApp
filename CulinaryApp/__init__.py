@@ -5,6 +5,7 @@ import re
 import urllib.request
 import pandas as pd
 import os
+import json
 from Levenshtein import distance
 
 possible_beginnings = [  # начала адресов
@@ -36,15 +37,21 @@ categories_en = [
 
 
 class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
-    def __init__(self, max_num, load=False, print_=True, printstep=50):
+    def __init__(self, urls=possible_beginnings.copy(),
+                 max_num, load=False, print_=True, printstep=50):
         self.max_num = max_num  # верхняя граница числа ссылок
-        self.urls = possible_beginnings.copy()  #
+        self.urls = urls
         # начинаем искать с этих адресов
         self.answer = None
         self.print_ = print_  # если print_==True, выводим то, сколько % готово
         self.printstep = printstep  # выводим каждый printstep шагов
         if load:  # тогда просто считываем из файла
             self.answer = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
+            if len(self.urls) == 1:
+                for category in categories_en:
+                    if category in self.urls[0]:
+                        self.answer = self.answer[(
+                            self.answer['category'] == category)]
 
     def get_links(self):
         # на выходе заполненное ссылками self.urls
@@ -160,9 +167,17 @@ class WebsiteInteractor():  # класс для взаимодействия с 
         for i in range(n):
             print('Введите ' + str(i) +
                   ' для выбора категории ' + str(categories_ru[i]))
-        inp = input()
-        assert int(inp) in range(n)
-        category_index = int(inp)
+        possible_inputs = ['0', '1', '2', '3', '4', '5',
+                           '6', '7', '8', '9', '10', '11']
+        category_index = None
+        while category_index not in range(12):
+            inp = input()
+            try:
+                category_index = int(inp)
+            except ValueError:
+                print("Вы ввели не число")
+            if category_index not in range(12):
+                print("Вы ввели не то число")
         category = categories_en[category_index]
         return category
 
@@ -171,16 +186,15 @@ class WebsiteInteractor():  # класс для взаимодействия с 
         # формат таблицы by default -  csv файл либо pandas dataframe
         # Вовзращаем выбранные ингредиенты из числа тех, которые имелись в tab
         print('Введите число ингредиентов(максимум 20)')
-        N = input()
-        N = int(N)
-        N = min(N, 20)
-        total_ingredients = set()
-        for ingredient_portion in tab['ingredients']:
-            if isinstance(ingredient_portion, str):
-                ingr_list = ingredient_portion[2:][:-2].split("', '")
-                total_ingredients.update(ingr_list)
-            else:
-                total_ingredients.update(ingredient_portion)
+        N = None
+        while N not in range(20):
+            inp = input()
+            try:
+                N = int(inp)
+            except ValueError:
+                print("Вы ввели не число")
+            if N not in range(20):
+                print("Вы ввели не то число")
         chosen_ingredients = list()
         while len(chosen_ingredients) < N:
             min_dist = 9999
@@ -234,8 +248,20 @@ class BackEnd():
                 self.tab.at[i, 'ingredients'] = (
                     self.tab['doses'][i][2:][:-2].split("', '"))
         self.user_ingredients = None
+        self.total_ingredients = None
+        self.get_total_ingredients()
         self.Interactor = WebsiteInteractor()
         # cjplftv класс для взаимодействия с сайтом
+
+    def get_total_ingredients(self):
+        total_ingredients = set()
+        for ingredient_portion in self.tab['ingredients']:
+            if isinstance(ingredient_portion, str):
+                ingr_list = ingredient_portion[2:][:-2].split("', '")
+                total_ingredients.update(ingr_list)
+            else:
+                total_ingredients.update(ingredient_portion)
+        self.total_ingredients = total_ingredients
 
     def choose_category(self):
         # выбираем категорию, пользуясь Interactor
@@ -243,6 +269,7 @@ class BackEnd():
         # у которых категория такая,какую ввел пользователь
         self.category = self.Interactor.choose_category()
         self.tab = self.tab[self.tab['category'] == self.category]
+        self.get_total_ingredients()
 
     def choose_ingredients(self):
         # получаем ингредиенты от WebsiteInteractor
@@ -291,13 +318,12 @@ class BackEnd():
 
 
 class CulinaryApp():  # первый и гравный архитектурный уровень
-    def __init__(self, max_num=100, load=False,
+    def __init__(self, urls=possible_beginnings[i], load=False, max_num=100,
                  print_=True, printstep=5, num_answers=3):
-        self.Getter = LinkGetter(max_num, load, print_, printstep)
+        self.Getter = LinkGetter(urls, max_num, load, print_, printstep)
         self.Getter.get_links()
         self.tab = self.Getter.get_tab()
         self.BackEnd = BackEnd(self.tab, load)
-        self.run(num_answers)
         self.last_final_tab = None
 
     def run(self, num_answers=3):
@@ -313,6 +339,21 @@ class CulinaryApp():  # первый и гравный архитектурны�
             self.last_final_tab = self.BackEnd.ingredient_search(num_answers)
 
 
-def main():
+def main():  # i is category
     A = CulinaryApp()
     A.run()
+
+
+def get_ingredientlist_by_category(i):
+    A = CulinaryApp(possible_beginnings[i], True)
+    answer = A.BackEnd.total_ingredients
+    answer = json.dumps(answer)
+    return answer
+
+
+def get_ingredients_by_ingredient_list(i, ingredient_list, num_answers=3):
+    A = CulinaryApp(possible_beginnings[i], True)
+    A.BackEnd.user_ingredients = ingredient_list
+    answer = A.BackEnd.ingredient_search(num_answers)
+    answer = answer.to_json()
+    return answer
