@@ -86,7 +86,6 @@ class LinkGetter:  # класс для получения ссылок и их �
                             except KeyError:
                                 print('KeyError')
                                 pass
-        #print("Links are gotten")
     #       функция возвращает таблицу с рецептами
 
     def get_tab(self, print_=False, save=True):  # если save - сохраняем
@@ -154,7 +153,6 @@ class LinkGetter:  # класс для получения ссылок и их �
                                    'receipt': receipt_list,
                                    'ingredients': ingredients_list,
                                    'doses': doses_list})
-            #print("Tab is gotten")
             if save:
                 answer.to_csv(
                     "C://CulinaryApp/Data.csv", sep=';', index=False)
@@ -236,6 +234,28 @@ class ConsoleInteractor():  # класс для взаимодействия ч�
 
     def get_final_tab(self, final_tab, print_answer=True, save_answer=True):
         # Получаем на вход итоговую таблицу и показываем ее
+        if print_answer:
+            try:
+                print('Вот блюда, которые Вам проще всего приготовить')
+                print(' Число блюд ' + str(len(final_tab)) + '\n')
+                for i in final_tab.index:
+                    print('НАЗВАНИЕ')
+                    print(final_tab['name'][i])
+                    print('Число совпадающих ингредиентов')
+                    print(final_tab['num_match'][i])
+                    print('Доля совпадающих ингредиентов')
+                    print(final_tab['share_match'][i])
+                    print('ИНГРЕДИЕНТЫ')
+                    for j in range(len(final_tab['ingredients'][i])):
+                        doze = ' доза ' + final_tab['doses'][i][j]
+                        print(final_tab['ingredients'][i][j] + doze)
+                    print('РЕЦЕПТ')
+                    print(final_tab['receipt'][i])
+            except UnicodeEncodeError:
+                print('Какие-то проблемы с кодировкой')
+                print('Мы не можем отобразить информацию о блюдах на экране')
+                print('Поэтому мы запишем ее в файл '+
+                'в Вашей главной директории проекта')
         if save_answer:
             file = open("C://CulinaryApp//Receipts.txt", "w", encoding="utf-8")
             file.write('Вот блюда, которые Вам проще всего приготовить\n')
@@ -254,22 +274,7 @@ class ConsoleInteractor():  # класс для взаимодействия ч�
                 file.write('\nРЕЦЕПТ\n')
                 file.write(final_tab['receipt'][i] + '\n')
             file.close()
-        if print_answer:
-            print('Вот блюда, которые Вам проще всего приготовить')
-            print(' Число блюд ' + str(len(final_tab)) + '\n')
-            for i in final_tab.index:
-                print('НАЗВАНИЕ')
-                print(final_tab['name'][i])
-                print('Число совпадающих ингредиентов')
-                print(final_tab['num_match'][i])
-                print('Доля совпадающих ингредиентов')
-                print(final_tab['share_match'][i])
-                print('ИНГРЕДИЕНТЫ')
-                for j in range(len(final_tab['ingredients'][i])):
-                    doze = ' доза ' + final_tab['doses'][i][j]
-                    print(final_tab['ingredients'][i][j] + doze)
-                print('РЕЦЕПТ')
-                print(final_tab['receipt'][i])
+            print('Проверьте вашу главную директорию проекта - файл там')
 
 
 class BackEnd():
@@ -365,15 +370,11 @@ class CulinaryApp():  # первый и гравный архитектурны�
     def __init__(self, urls=possible_beginnings.copy(),
                  load=False, max_num=300,
                  print_=True, save_=False, printstep=5, num_answers=3):
-        #print('Creating CulinaryApp')
+
         self.Getter = LinkGetter(urls, max_num, load, print_, printstep)
         self.Getter.get_links()
-        #print("Links are gotten")
-        #raise Exception()
         self.tab = self.Getter.get_tab(print_, save_)
-        #print("Tab is gotten")
         self.BackEnd = BackEnd(self.tab, load)
-        #print("Backend is made")
         self.last_final_tab = None
 
     def run(self, num_answers=3):
