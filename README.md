@@ -25,6 +25,8 @@
 
 3)Запустить файл CulinaryServer/CulinaryServer/bin/Debug/CulinaryServer.exe , после чего совершать POST запросы для взаимодействия с приложением. В качестве первого запроса должно быть число от 0 до 12, в качестве второго запроса - это же число и(через пробел) список наименований ингредиентов(без кавычек, разделенный только запятыми), каждое наименование должно дословно соответствовать выведенным на экране выше. Если в наименовании больше 1 слова, разделяйте слова знаком _ , но не пробелом.
 
+4)После запуска откройте файл Receipts.txt в C://CulinaryApp
+
 [travis-url]: https://travis-ci.org/dimakarp1996/CulinaryApp
 [travis-badge]: https://travis-ci.org/dimakarp1996/CulinaryApp.svg?branch=master
 [coverage-image]: https://codecov.io/gh/dimakarp1996/CulinaryApp/branch/master/graph/badge.svg
