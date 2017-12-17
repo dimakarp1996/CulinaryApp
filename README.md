@@ -17,8 +17,11 @@
 
 перейти в главную директорию проекта, набрать python test_all.py
 
+Как запустить REST API:
 
-
+1)Поставить проект в корень диска С(чтобы адрес был С://CulinaryApp)
+2)Перейти в директорию CulinaryServer/CulinaryServer/Program.cs и там заменить PYTHON_DIR на вашу директорию? в которой у вас лежит python.exe(если его нет, установите python - без него программа не будет работать)
+3)Запустить файл CulinaryServer/CulinaryServer/bin/Debug/CulinaryServer.exe , после чего совершать POST запросы для взаимодействия с приложением. В качестве первого запроса должно быть число от 0 до 12, в качестве второго запроса - это же число и(через пробел) список наименований ингредиентов(без кавычек, разделенный только запятыми), каждое наименование должно дословно соответствовать выведенным на экране выше.
 
 [travis-url]: https://travis-ci.org/dimakarp1996/CulinaryApp
 [travis-badge]: https://travis-ci.org/dimakarp1996/CulinaryApp.svg?branch=master
