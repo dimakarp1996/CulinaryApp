@@ -34,7 +34,8 @@ categories_en = [
     'osnovnye-blyuda',
     'sendvichi',
     'sousy-marinady']
-rus_letters='абвгдеёжзийклмпнопрстуфхцчшщъыьэюя'
+rus_letters = 'абвгдеёжзийклмпнопрстуфхцчшщъыьэюя'
+
 
 class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
     def __init__(self, urls=possible_beginnings.copy(),
@@ -141,7 +142,7 @@ class LinkGetter:  # класс для получения ссылок и их �
                                    'doses': doses_list})
             if save:
                 answer.to_csv(
-                        "C://CulinaryApp/Data.csv", sep=';', index = False)
+                    "C://CulinaryApp/Data.csv", sep=';', index=False)
             return answer
 
 
@@ -260,15 +261,14 @@ class BackEnd():
             if isinstance(ingredient_portion, str):
                 ingr_list = ingredient_portion[2:][:-2].split("', '")
                 for ingredient_portion in ingr_list:
-                    #print(ingredient_portion)
+                    # print(ingredient_portion)
                     if ingredient_portion[0] in rus_letters:
                         total_ingredients.update(ingredient_portion)
             else:
-                #print(ingredient_portion)
+                # print(ingredient_portion)
                 if ingredient_portion[0][0] in rus_letters:
                     total_ingredients.update(ingredient_portion)
-        tmp=list(total_ingredients)
-        tmp.sort()
+        tmp = sorted(total_ingredients)
         self.total_ingredients = set(tmp)
 
     def choose_category(self):
