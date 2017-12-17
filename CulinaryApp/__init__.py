@@ -46,7 +46,8 @@ class LinkGetter:  # класс для получения ссылок и их �
         self.print_ = print_  # если print_==True, выводим то, сколько % готово
         self.printstep = printstep  # выводим каждый printstep шагов
         if load:  # тогда просто считываем из файла
-            self.answer = pd.read_csv(os.getcwd() + '/Data.csv', sep=';')
+            self.answer = pd.read_csv(
+                "C://CulinaryApp/Data.csv", sep=';')
             if len(self.urls) == 1:
                 for category in categories_en:
                     if category in self.urls[0]:
@@ -59,7 +60,7 @@ class LinkGetter:  # класс для получения ссылок и их �
         str0 = 'Ищем для вас ссылки - '
         str1 = ' процентов завершено'
         for url in self.urls:
-            if len(self.urls) < self.max_num + len(possible_beginnings):
+            if len(self.urls) < self.max_num:
                 for possible_beginning in possible_beginnings:
                     if possible_beginning in url:
                         soup = BeautifulSoup(requests.get(url).text, 'lxml')
@@ -139,12 +140,12 @@ class LinkGetter:  # класс для получения ссылок и их �
                                    'ingredients': ingredients_list,
                                    'doses': doses_list})
             if save:
-                answer.to_csv(os.getcwd() + '/Data.csv', sep=';')
+                answer.to_csv(
+                        "C://CulinaryApp/Data.csv", sep=';', index = False)
             return answer
 
 
-class WebsiteInteractor():  # класс для взаимодействия с вебсайтом
-    # класс будет переписан, скорее всего, как только реальный сайт будет
+class ConsoleInteractor():  # класс для взаимодействия через станд.поток
 
     def choose_category(self):
         # Предлагаем выйти одну из этих категорий
@@ -179,7 +180,8 @@ class WebsiteInteractor():  # класс для взаимодействия с 
         category = categories_en[category_index]
         return category
 
-    def choose_ingredients(self, tab):
+    def choose_ingredients(self, total_ingredients):
+        # print(total_ingredients)
         # Получаем на вход таблицу tab
         # формат таблицы by default -  csv файл либо pandas dataframe
         # Вовзращаем выбранные ингредиенты из числа тех, которые имелись в tab
@@ -200,7 +202,7 @@ class WebsiteInteractor():  # класс для взаимодействия с 
             print('Вводите ингредиент')
             inputted_ingredient = input()
             inputted_ingredient.lower()
-            for ingredient in self.total_ingredients:
+            for ingredient in total_ingredients:
                 ingredient.lower()
                 this_dist = distance(ingredient, inputted_ingredient)
                 if this_dist < min_dist:
@@ -245,15 +247,16 @@ class BackEnd():
                     self.tab['ingredients'][i][2:][:-2].split("', '"))
                 self.tab.at[i, 'ingredients'] = (
                     self.tab['doses'][i][2:][:-2].split("', '"))
+        self.user_tab = None
         self.user_ingredients = None
         self.total_ingredients = None
-        self.get_total_ingredients()
-        self.Interactor = WebsiteInteractor()
+        self.get_total_ingredients(self.tab)
+        self.Interactor = ConsoleInteractor()
         # cjplftv класс для взаимодействия с сайтом
 
-    def get_total_ingredients(self):
+    def get_total_ingredients(self, tab):
         total_ingredients = set()
-        for ingredient_portion in self.tab['ingredients']:
+        for ingredient_portion in tab['ingredients']:
             if isinstance(ingredient_portion, str):
                 ingr_list = ingredient_portion[2:][:-2].split("', '")
                 total_ingredients.update(ingr_list)
@@ -266,13 +269,13 @@ class BackEnd():
         # выбираем в таблице только те рецепты,
         # у которых категория такая,какую ввел пользователь
         self.category = self.Interactor.choose_category()
-        self.tab = self.tab[self.tab['category'] == self.category]
-        self.get_total_ingredients()
+        self.user_tab = self.tab[self.tab['category'] == self.category]
+        self.get_total_ingredients(self.user_tab)
 
     def choose_ingredients(self):
-        # получаем ингредиенты от WebsiteInteractor
+        # получаем ингредиенты от ConsoleInteractor
         self.user_ingredients = self.Interactor.choose_ingredients(
-            self.user_tab)
+            self.total_ingredients)
 
     def ingredient_search(self, num_answers=3):
         # сортируем рецепты сначала по числу совпадающих ингредиентов
@@ -316,7 +319,9 @@ class BackEnd():
 
 
 class CulinaryApp():  # первый и гравный архитектурный уровень
-    def __init__(self, urls=possible_beginnings, load=False, max_num=100,
+    # max_num должен быть минимум 300 где-то
+    def __init__(self, urls=possible_beginnings.copy(),
+                 load=False, max_num=300,
                  print_=True, printstep=5, num_answers=3):
         self.Getter = LinkGetter(urls, max_num, load, print_, printstep)
         self.Getter.get_links()
@@ -340,14 +345,3 @@ class CulinaryApp():  # первый и гравный архитектурны�
 def main():  # i is category
     A = CulinaryApp()
     A.run()
-
-
-
-
-
-def get_ingredients_by_ingredient_list(i, ingredient_list, num_answers=3):
-    A = CulinaryApp(possible_beginnings[i], True)
-    A.BackEnd.user_ingredients = ingredient_list
-    answer = A.BackEnd.ingredient_search(num_answers)
-    answer = answer.to_json()
-    return answer
