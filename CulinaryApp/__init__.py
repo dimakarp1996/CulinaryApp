@@ -34,7 +34,7 @@ categories_en = [
     'osnovnye-blyuda',
     'sendvichi',
     'sousy-marinady']
-
+rus_letters='абвгдеёжзийклмпнопрстуфхцчшщъыьэюя'
 
 class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
     def __init__(self, urls=possible_beginnings.copy(),
@@ -259,10 +259,17 @@ class BackEnd():
         for ingredient_portion in tab['ingredients']:
             if isinstance(ingredient_portion, str):
                 ingr_list = ingredient_portion[2:][:-2].split("', '")
-                total_ingredients.update(ingr_list)
+                for ingredient_portion in ingr_list:
+                    #print(ingredient_portion)
+                    if ingredient_portion[0] in rus_letters:
+                        total_ingredients.update(ingredient_portion)
             else:
-                total_ingredients.update(ingredient_portion)
-        self.total_ingredients = total_ingredients
+                #print(ingredient_portion)
+                if ingredient_portion[0][0] in rus_letters:
+                    total_ingredients.update(ingredient_portion)
+        tmp=list(total_ingredients)
+        tmp.sort()
+        self.total_ingredients = set(tmp)
 
     def choose_category(self):
         # выбираем категорию, пользуясь Interactor
