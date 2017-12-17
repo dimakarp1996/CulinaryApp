@@ -1,14 +1,16 @@
+
 from CulinaryApp import LinkGetter
 from CulinaryApp import BackEnd
 from CulinaryApp import possible_beginnings
 from CulinaryApp import categories_en
+from CulinaryApp import rus_letters
 import pandas as pd
 import random
 # import os
 
 
 def test_linkgetter():
-    obj = LinkGetter(100)
+    obj = LinkGetter(max_num=100)
     obj.get_links()
     assert sum(
         [link in beginning for link in obj.urls
@@ -37,7 +39,7 @@ def test_backend():
     random.seed(0)
     max_ingr = 3  # maximal number of ingredients
     max_trys = 4  # number of tries on each # of ingredients
-    f = LinkGetter(200)
+    f = LinkGetter(max_num=200)
     f.get_links()
     tab = f.get_tab(True, False)
     for category in categories_en:
