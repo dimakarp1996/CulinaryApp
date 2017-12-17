@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 from lxml import html
 import requests
@@ -7,7 +9,8 @@ import pandas as pd
 import os
 import json
 from Levenshtein import distance
-
+from string import punctuation
+import sys
 possible_beginnings = [  # начала адресов
     'https://eda.ru/recepty/zavtraki',
     'https://eda.ru/recepty/osnovnye-blyuda',
@@ -58,6 +61,7 @@ class LinkGetter:  # класс для получения ссылок и их �
     def get_links(self):
         # на выходе заполненное ссылками self.urls
         i = 0
+        print('Getting links')
         str0 = 'Ищем для вас ссылки - '
         str1 = ' процентов завершено'
         for url in self.urls:
@@ -80,10 +84,14 @@ class LinkGetter:  # класс для получения ссылок и их �
                                             percent = str(round(percent, 3))
                                             print(str0 + percent + str1)
                             except KeyError:
+                                print('KeyError')
                                 pass
+        #print("Links are gotten")
     #       функция возвращает таблицу с рецептами
 
     def get_tab(self, print_=False, save=True):  # если save - сохраняем
+       # print('Getting tab')
+        regex = re.compile('[^a-zA-Zа-я0-9]!,-?:().')
         if self.answer is not None:
             return self.answer
         else:
@@ -118,18 +126,24 @@ class LinkGetter:  # класс для получения ссылок и их �
                 ingredients = re.sub("<.*?>", " ", str(ingredients))
                 # убираем скобки и получаем список ингредиентов
                 ingredients = ingredients[1:][:-1].split(',  \n')
+                ingredients = [regex.sub(' ', x) for x in ingredients]
                 ingredients = [(x.strip()).lower() for x in ingredients]
                 # аналогично получаем список доз
                 doses = (
                     bs1.find_all(
                         'span',
                         'content-item__measure js-ingredient-measure-amount'))
+
                 doses = re.sub("<.*?>", " ", str(doses))[1:][:-1].split(' ,  ')
+                doses = [regex.sub(' ', x) for x in doses]
                 doses = [x.strip() for x in doses]
+
                 if name != 'None':
                     bs2 = str(bs0).split('"recipeInstructions":["')
                     receipt = bs2[1].split('"],"recipeYield":')
                     receipt = re.sub('","', '\n', receipt[0])
+                    receipt = re.sub('—', '-', receipt)
+                    receipt = regex.sub(' ', receipt)
                     titles_list.append(name)
                     ingredients_list.append(list(set(ingredients)))
                     doses_list.append(doses)
@@ -140,6 +154,7 @@ class LinkGetter:  # класс для получения ссылок и их �
                                    'receipt': receipt_list,
                                    'ingredients': ingredients_list,
                                    'doses': doses_list})
+            #print("Tab is gotten")
             if save:
                 answer.to_csv(
                     "C://CulinaryApp/Data.csv", sep=';', index=False)
@@ -219,23 +234,42 @@ class ConsoleInteractor():  # класс для взаимодействия ч�
                     print('Ингредиент добавлен')
         return chosen_ingredients
 
-    def get_final_tab(self, final_tab):
+    def get_final_tab(self, final_tab, print_answer=True, save_answer=True):
         # Получаем на вход итоговую таблицу и показываем ее
-        print('Вот блюда, которые Вам проще всего приготовить')
-        print(' Число блюд ' + str(len(final_tab)))
-        for i in final_tab.index:
-            print('НАЗВАНИЕ')
-            print(final_tab['name'][i])
-            print('Число совпадающих ингредиентов')
-            print(final_tab['num_match'][i])
-            print('Доля совпадающих ингредиентов')
-            print(final_tab['share_match'][i])
-            print('ИНГРЕДИЕНТЫ')
-            for j in range(len(final_tab['ingredients'][i])):
-                doze = ' доза ' + final_tab['doses'][i][j]
-                print(final_tab['ingredients'][i][j] + doze)
-            print('РЕЦЕПТ')
-            print(final_tab['receipt'][i])
+        if save_answer:
+            file = open("C://CulinaryApp//Receipts.txt", "w", encoding="utf-8")
+            file.write('Вот блюда, которые Вам проще всего приготовить\n')
+            file.write(' Число блюд ' + str(len(final_tab)) + '\n')
+            for i in final_tab.index:
+                file.write('НАЗВАНИЕ\n')
+                file.write(final_tab['name'][i])
+                file.write('\nЧисло совпадающих ингредиентов\n')
+                file.write(str(final_tab['num_match'][i]))
+                file.write('\nДоля совпадающих ингредиентов\n')
+                file.write(str(final_tab['share_match'][i]))
+                file.write('\nИНГРЕДИЕНТЫ\n')
+                for j in range(len(final_tab['ingredients'][i])):
+                    doze = ' доза ' + final_tab['doses'][i][j]
+                    file.write(final_tab['ingredients'][i][j] + doze + '\n')
+                file.write('\nРЕЦЕПТ\n')
+                file.write(final_tab['receipt'][i] + '\n')
+            file.close()
+        if print_answer:
+            print('Вот блюда, которые Вам проще всего приготовить')
+            print(' Число блюд ' + str(len(final_tab)) + '\n')
+            for i in final_tab.index:
+                print('НАЗВАНИЕ')
+                print(final_tab['name'][i])
+                print('Число совпадающих ингредиентов')
+                print(final_tab['num_match'][i])
+                print('Доля совпадающих ингредиентов')
+                print(final_tab['share_match'][i])
+                print('ИНГРЕДИЕНТЫ')
+                for j in range(len(final_tab['ingredients'][i])):
+                    doze = ' доза ' + final_tab['doses'][i][j]
+                    print(final_tab['ingredients'][i][j] + doze)
+                print('РЕЦЕПТ')
+                print(final_tab['receipt'][i])
 
 
 class BackEnd():
@@ -284,7 +318,8 @@ class BackEnd():
         self.user_ingredients = self.Interactor.choose_ingredients(
             self.total_ingredients)
 
-    def ingredient_search(self, num_answers=3):
+    def ingredient_search(self, num_answers=3,
+                          print_answer=True, save_answer=False):
         # сортируем рецепты сначала по числу совпадающих ингредиентов
         # потом по доле совпадающих ингредиентов
         answer = []
@@ -321,7 +356,7 @@ class BackEnd():
             final_tab.at[i, 'ingredients'] = tmp
             final_tab.at[i, 'share_match'] = share_match[i]
             final_tab.at[i, 'num_match'] = num_match[i]
-        self.Interactor.get_final_tab(final_tab)
+        self.Interactor.get_final_tab(final_tab, print_answer, save_answer)
         return final_tab
 
 
@@ -329,11 +364,16 @@ class CulinaryApp():  # первый и гравный архитектурны�
     # max_num должен быть минимум 300 где-то
     def __init__(self, urls=possible_beginnings.copy(),
                  load=False, max_num=300,
-                 print_=True, printstep=5, num_answers=3):
+                 print_=True, save_=False, printstep=5, num_answers=3):
+        #print('Creating CulinaryApp')
         self.Getter = LinkGetter(urls, max_num, load, print_, printstep)
         self.Getter.get_links()
-        self.tab = self.Getter.get_tab()
+        #print("Links are gotten")
+        #raise Exception()
+        self.tab = self.Getter.get_tab(print_, save_)
+        #print("Tab is gotten")
         self.BackEnd = BackEnd(self.tab, load)
+        #print("Backend is made")
         self.last_final_tab = None
 
     def run(self, num_answers=3):
