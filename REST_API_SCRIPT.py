@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import sys
-sys.path.insert(0, 'C://CulinaryApp')
 from CulinaryApp import CulinaryApp
 from CulinaryApp import possible_beginnings
 import re
