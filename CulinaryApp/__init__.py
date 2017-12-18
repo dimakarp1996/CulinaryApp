@@ -11,6 +11,7 @@ import json
 from Levenshtein import distance
 from string import punctuation
 import sys
+import sqlite3
 possible_beginnings = [  # начала адресов
     'https://eda.ru/recepty/zavtraki',
     'https://eda.ru/recepty/osnovnye-blyuda',
@@ -38,6 +39,36 @@ categories_en = [
     'sendvichi',
     'sousy-marinady']
 rus_letters = 'абвгдеёжзийклмпнопрстуфхцчшщъыьэюя'
+PROJECT_DIR = 'C://CulinaryApp'  # project directory
+
+
+def save(database_name, tab):  # сохраняем базу данных database_name
+    connection = sqlite3.connect(database_name, check_same_thread=False)
+    cursor = connection.cursor()
+    connection.execute("PRAGMA foreign_keys=ON")
+    cursor.execute('''CREATE TABLE IF NOT EXISTS tab (
+                            name TEXT PRIMARY KEY,
+                                category TEXT,
+                             doses TEXT, ingredients TEXT, receipt TEXT)''')
+    for i in tab.index:
+        try:
+            cursor.execute("INSERT INTO tab VALUES (?,?,?,?,?)",
+                           (tab['name'][i],
+                            tab['category'][i],
+                            str(tab['doses'][i]),
+                            str(tab['ingredients'][i]),
+                            tab['receipt'][i]))
+        except (sqlite3.OperationalError, sqlite3.IntegrityError):
+            print("Ошибка - обнаружен дубликат имени рецепта")
+    connection.commit()
+    print('База данных проекта сохранена(либо уже имеется)')
+
+
+def load(database_name):
+    connection = sqlite3.connect(database_name, check_same_thread=False)
+    tab = pd.read_sql_query("SELECT * FROM tab", connection)
+    print("Taблица успешно загружена")
+    return tab
 
 
 class LinkGetter:  # класс для получения ссылок и их парсинга в табицу
@@ -50,8 +81,7 @@ class LinkGetter:  # класс для получения ссылок и их �
         self.print_ = print_  # если print_==True, выводим то, сколько % готово
         self.printstep = printstep  # выводим каждый printstep шагов
         if load:  # тогда просто считываем из файла
-            self.answer = pd.read_csv(
-                "C://CulinaryApp/Data.csv", sep=';')
+            self.answer = load(PROJECT_DIR + "/Data.db")
             if len(self.urls) == 1:
                 for category in categories_en:
                     if category in self.urls[0]:
@@ -153,8 +183,7 @@ class LinkGetter:  # класс для получения ссылок и их �
                                    'ingredients': ingredients_list,
                                    'doses': doses_list})
             if save:
-                answer.to_csv(
-                    "C://CulinaryApp/Data.csv", sep=';', index=False)
+                save(PROJECT_DIR + "/Data.db", answer)
             return answer
 
 
