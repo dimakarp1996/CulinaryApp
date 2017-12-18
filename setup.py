@@ -20,7 +20,6 @@ setup(
         "requests",
         "pandas",
         "python-Levenshtein",
-        "urllib",
     ],
     setup_requires=[
         "pytest-runner",
