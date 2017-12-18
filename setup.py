@@ -19,7 +19,9 @@ setup(
         "lxml",
         "requests",
         "pandas",
-        "python-Levenshtein"
+        "python-Levenshtein",
+        "urllib",
+        "sqlite3"
     ],
     setup_requires=[
         "pytest-runner",
