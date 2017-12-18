@@ -42,7 +42,7 @@ rus_letters = 'абвгдеёжзийклмпнопрстуфхцчшщъыьэ�
 PROJECT_DIR = 'C://CulinaryApp'  # project directory
 
 
-def save(database_name, tab):  # сохраняем tab по адресу database_name
+def save(database_name, tab):  # сохраняем базу данных database_name
     connection = sqlite3.connect(database_name, check_same_thread=False)
     cursor = connection.cursor()
     connection.execute("PRAGMA foreign_keys=ON")
@@ -50,7 +50,7 @@ def save(database_name, tab):  # сохраняем tab по адресу databa
                             name TEXT PRIMARY KEY,
                                 category TEXT,
                              doses TEXT, ingredients TEXT, receipt TEXT)''')
-    for i in tab.index: # tab - это pd.DataFrame
+    for i in tab.index:  # tab это pd.DataFrame
         try:
             cursor.execute("INSERT INTO tab VALUES (?,?,?,?,?)",
                            (tab['name'][i],
@@ -64,7 +64,7 @@ def save(database_name, tab):  # сохраняем tab по адресу databa
     print('База данных проекта сохранена(либо уже имеется)')
 
 
-def load(database_name):  # выгружаем базу данных с адреса database_name
+def load(database_name):
     connection = sqlite3.connect(database_name, check_same_thread=False)
     tab = pd.read_sql_query("SELECT * FROM tab", connection)
     print("Taблица успешно загружена")
@@ -138,7 +138,10 @@ class LinkGetter:  # класс для получения ссылок и их �
                     percent = str(round(percent, 3))
                     print(str0 + str(percent) + str1)
                 splitted = url.split('/')
-                res = urllib.request.urlopen(url).read()  # делаем реквест
+                try:
+                    res = urllib.request.urlopen(url).read()  # делаем реквест
+                except urllib.HTTPError:
+                    pass
                 bs0 = BeautifulSoup(res, 'lxml')
                 # парсим имя
                 name = (bs0.find('h1', 'recipe__name g-h1'))
