@@ -1,4 +1,3 @@
-
 from CulinaryApp import LinkGetter
 from CulinaryApp import BackEnd
 from CulinaryApp import possible_beginnings
@@ -58,3 +57,15 @@ def test_backend():
                 for k in range(3):
                     assert cond1(final_tab, k)
                     assert cond2(final_tab, k)
+
+
+def check_save_load():
+    tablica = pd.read_csv(
+        os.getcwd() +
+        "/Data.csv",
+        sep=';',
+        encoding='latin1')
+    database_name = os.getcwd() + '/test_data.db'
+    save(database_name, tablica)
+    f = load(database_name)
+    assert(tablica.equals(f))
