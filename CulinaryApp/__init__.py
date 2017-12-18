@@ -42,7 +42,7 @@ rus_letters = 'абвгдеёжзийклмпнопрстуфхцчшщъыьэ�
 PROJECT_DIR = 'C://CulinaryApp'  # project directory
 
 
-def save(database_name, tab):  # сохраняем базу данных по адресу database_name
+def save(database_name, tab):  # сохраняем датафрейм tab по адресу database_name
     connection = sqlite3.connect(database_name, check_same_thread=False)
     cursor = connection.cursor()
     connection.execute("PRAGMA foreign_keys=ON")
