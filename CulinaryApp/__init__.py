@@ -89,7 +89,6 @@ class LinkGetter:  # класс для получения ссылок и их �
     #       функция возвращает таблицу с рецептами
 
     def get_tab(self, print_=False, save=True):  # если save - сохраняем
-       # print('Getting tab')
         regex = re.compile('[^a-zA-Zа-я0-9]!,-?:().')
         if self.answer is not None:
             return self.answer
