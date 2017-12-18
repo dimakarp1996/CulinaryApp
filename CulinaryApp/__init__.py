@@ -180,11 +180,12 @@ class LinkGetter:  # класс для получения ссылок и их �
                     doses_list.append(doses)
                     receipt_list.append(receipt)
                     categories.append(splitted[len(splitted) - 2])
-            answer = pd.DataFrame({'category': categories,
-                                   'name': titles_list,
-                                   'receipt': receipt_list,
-                                   'ingredients': ingredients_list,
-                                   'doses': doses_list})
+            answer = pd.DataFrame({
+                'name': titles_list,
+                'category': categories,
+                'doses': doses_list,
+                'ingredients': ingredients_list,
+                'receipt': receipt_list})
             if save:
                 save(PROJECT_DIR + "/Data.db", answer)
             return answer
