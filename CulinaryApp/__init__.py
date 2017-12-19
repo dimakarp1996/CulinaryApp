@@ -426,7 +426,9 @@ class BackEnd():
 
     def choose_ingredients(self):
         '''функция вызывает choose_ingredients
-        у ConsoleInteractor, хранит ответ'''
+        у ConsoleInteractor, хранит ответ
+		в self.user_ingredients
+		'''
         self.user_ingredients = self.Interactor.choose_ingredients(
             self.total_ingredients)
 

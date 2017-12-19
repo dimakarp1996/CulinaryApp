@@ -24,7 +24,6 @@ def InteractWithRestAPI():
         answer = None
         A = CulinaryApp(urls=[possible_beginnings[i]], load=False,
                         max_num=50, print_=True)
-        # temporary code - will be deleted BEGIN
         tmp = A.BackEnd.total_ingredients
         answer = sorted(tmp)
 #        for j in answer:
