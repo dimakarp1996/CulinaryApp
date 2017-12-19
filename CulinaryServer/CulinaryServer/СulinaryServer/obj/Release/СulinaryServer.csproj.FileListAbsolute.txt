@@ -1,0 +1,55 @@
+C:\Users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Release\СulinaryServer.exe.config
+C:\Users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Release\СulinaryServer.exe
+C:\Users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Release\СulinaryServer.pdb
+C:\Users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Release\Newtonsoft.Json.dll
+C:\Users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Release\Newtonsoft.Json.xml
+C:\Users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\obj\Release\СulinaryServer.exe
+C:\Users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\obj\Release\СulinaryServer.pdb
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\obj\Release\СulinaryServer.csprojResolveAssemblyReference.cache
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\obj\Release\СulinaryServer.exe
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\obj\Release\СulinaryServer.pdb
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\СulinaryServer.exe.config
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\СulinaryServer.exe
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\СulinaryServer.pdb
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\IronPython.dll
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\IronPython.Modules.dll
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\IronPython.SQLite.dll
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\IronPython.Wpf.dll
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Dynamic.dll
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.AspNet.dll
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.dll
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.Metadata.dll
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Newtonsoft.Json.dll
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\IronPython.xml
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\IronPython.Modules.xml
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\IronPython.SQLite.xml
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\IronPython.Wpf.xml
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Dynamic.xml
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.xml
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.AspNet.xml
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.Metadata.xml
+C:\Users\Galina\Desktop\СulinaryServer\СulinaryServer\bin\Release\Newtonsoft.Json.xml
+D:\СulinaryServer\СulinaryServer\bin\Release\СulinaryServer.exe.config
+D:\СulinaryServer\СulinaryServer\bin\Release\СulinaryServer.exe
+D:\СulinaryServer\СulinaryServer\bin\Release\СulinaryServer.pdb
+D:\СulinaryServer\СulinaryServer\bin\Release\IronPython.dll
+D:\СulinaryServer\СulinaryServer\bin\Release\IronPython.Modules.dll
+D:\СulinaryServer\СulinaryServer\bin\Release\IronPython.SQLite.dll
+D:\СulinaryServer\СulinaryServer\bin\Release\IronPython.Wpf.dll
+D:\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Dynamic.dll
+D:\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.AspNet.dll
+D:\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.dll
+D:\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.Metadata.dll
+D:\СulinaryServer\СulinaryServer\bin\Release\Newtonsoft.Json.dll
+D:\СulinaryServer\СulinaryServer\bin\Release\IronPython.xml
+D:\СulinaryServer\СulinaryServer\bin\Release\IronPython.Modules.xml
+D:\СulinaryServer\СulinaryServer\bin\Release\IronPython.SQLite.xml
+D:\СulinaryServer\СulinaryServer\bin\Release\IronPython.Wpf.xml
+D:\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Dynamic.xml
+D:\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.xml
+D:\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.AspNet.xml
+D:\СulinaryServer\СulinaryServer\bin\Release\Microsoft.Scripting.Metadata.xml
+D:\СulinaryServer\СulinaryServer\bin\Release\Newtonsoft.Json.xml
+D:\СulinaryServer\СulinaryServer\obj\Release\СulinaryServer.csprojResolveAssemblyReference.cache
+D:\СulinaryServer\СulinaryServer\obj\Release\СulinaryServer.exe
+D:\СulinaryServer\СulinaryServer\obj\Release\СulinaryServer.pdb

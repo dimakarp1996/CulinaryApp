@@ -1,0 +1,80 @@
+c:\users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.exe.config
+c:\users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.exe
+c:\users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.pdb
+c:\users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.csprojResolveAssemblyReference.cache
+c:\users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.exe
+c:\users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.pdb
+c:\users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Debug\Newtonsoft.Json.dll
+c:\users\ivan\documents\visual studio 2017\Projects\СulinaryServer\СulinaryServer\bin\Debug\Newtonsoft.Json.xml
+D:\СulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.exe.config
+D:\СulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.exe
+D:\СulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.pdb
+D:\СulinaryServer\СulinaryServer\bin\Debug\IronPython.dll
+D:\СulinaryServer\СulinaryServer\bin\Debug\IronPython.Modules.dll
+D:\СulinaryServer\СulinaryServer\bin\Debug\IronPython.SQLite.dll
+D:\СulinaryServer\СulinaryServer\bin\Debug\IronPython.Wpf.dll
+D:\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Dynamic.dll
+D:\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.AspNet.dll
+D:\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.dll
+D:\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.Metadata.dll
+D:\СulinaryServer\СulinaryServer\bin\Debug\Newtonsoft.Json.dll
+D:\СulinaryServer\СulinaryServer\bin\Debug\IronPython.xml
+D:\СulinaryServer\СulinaryServer\bin\Debug\IronPython.Modules.xml
+D:\СulinaryServer\СulinaryServer\bin\Debug\IronPython.SQLite.xml
+D:\СulinaryServer\СulinaryServer\bin\Debug\IronPython.Wpf.xml
+D:\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Dynamic.xml
+D:\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.xml
+D:\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.AspNet.xml
+D:\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.Metadata.xml
+D:\СulinaryServer\СulinaryServer\bin\Debug\Newtonsoft.Json.xml
+D:\СulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.csprojResolveAssemblyReference.cache
+D:\СulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.exe
+D:\СulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.pdb
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.exe.config
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.exe
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.pdb
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\IronPython.dll
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\IronPython.Modules.dll
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\IronPython.SQLite.dll
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\IronPython.Wpf.dll
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Dynamic.dll
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.AspNet.dll
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.dll
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.Metadata.dll
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\IronPython.xml
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\IronPython.Modules.xml
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\IronPython.SQLite.xml
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\IronPython.Wpf.xml
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Dynamic.xml
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.xml
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.AspNet.xml
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.Metadata.xml
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.csprojResolveAssemblyReference.cache
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.exe
+C:\Users\DK\CulinaryApp\server\server\СulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.pdb
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.exe.config
+C:\CulinaryApp\CulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.exe
+C:\CulinaryApp\CulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.pdb
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.exe
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.pdb
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\IronPython.dll
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\IronPython.Modules.dll
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\IronPython.SQLite.dll
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\IronPython.Wpf.dll
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Dynamic.dll
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.AspNet.dll
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.dll
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.Metadata.dll
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Newtonsoft.Json.dll
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\IronPython.xml
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\IronPython.Modules.xml
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\IronPython.SQLite.xml
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\IronPython.Wpf.xml
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Dynamic.xml
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.xml
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.AspNet.xml
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.Metadata.xml
+C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Newtonsoft.Json.xml
+C:\CulinaryApp\CulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.csprojResolveAssemblyReference.cache
