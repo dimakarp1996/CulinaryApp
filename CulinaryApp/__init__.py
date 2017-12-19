@@ -41,7 +41,7 @@ categories_en = [
     'sousy-marinady']
 rus_letters = 'абвгдеёжзийклмпнопрстуфхцчшщъыьэюя'
 PROJECT_DIR = 'C://CulinaryApp'  # project directory
-DATABASE_DIR = PROJECT_DIR + "/Data.db"
+DATABASE_DIR = PROJECT_DIR + "//Data.db"
 
 
 def save(database_name, tab):  # сохраняем базу данных database_name
@@ -109,30 +109,34 @@ class LinkGetter:
         '''
         Функция для парсинга ссылок. Добавляет новые ссылки в self.urls
         '''
+        def test_add(a, i):
+            if a['href'][:9] == '/recepty/':
+                address = 'https://eda.ru' + a['href']
+                u1 = address not in self.urls
+                u2 = address.count('/') == 5
+                if u1 and u2:
+                    self.urls.append(address)
+                    i += 1
+                    u3 = i % self.printstep == 0
+                    if self.print_ and u3:
+                        percent = 100 * i / self.max_num
+                        percent = str(round(percent, 3))
+                        print(str0 + percent + str1)
         i = 0
         print('Getting links')
         str0 = 'Ищем для вас ссылки - '
         str1 = ' процентов завершено'
+        len0 = len(self.urls)
         for url, possible_beginning in product(self.urls, possible_beginnings):
             if possible_beginning in url and len(self.urls) < self.max_num:
                 soup = BeautifulSoup(requests.get(url).text, 'lxml')
                 for a in soup.find_all('a'):
                     try:
-                        if a['href'][:9] == '/recepty/':
-                            address = 'https://eda.ru' + a['href']
-                            u1 = address not in self.urls
-                            u2 = address.count('/') == 5
-                            if u1 and u2:
-                                self.urls.append(address)
-                                i += 1
-                                u3 = i % self.printstep == 0
-                                if self.print_ and u3:
-                                    percent = 100 * i / self.max_num
-                                    percent = str(round(percent, 3))
-                                    print(str0 + percent + str1)
+                        test_add(a, i)
                     except KeyError:
                         print('KeyError')
                         pass
+        self.urls = self.urls[len0:]
     #       функция возвращает таблицу с рецептами
 
     def get_tab(self, print_=False, save=True):  # если save - сохраняем
@@ -145,6 +149,42 @@ class LinkGetter:
         если True, то печатаем информацию о ходе парсинга
         save_ если True, то сохраняем распарсенный DataFrame в .db файл
         '''
+        def find_receipt_name(bs0):
+            name = (bs0.find('h1', 'recipe__name g-h1'))
+            name = re.sub("<.*?>", " ", str(name))
+            name = re.sub('\n', '', name).strip()
+            if name != 'None':
+                bs2 = str(bs0).split('"recipeInstructions":["')
+                receipt = bs2[1].split('"],"recipeYield":')
+                receipt = re.sub('","', '\n', receipt[0])
+                receipt = re.sub('—', '-', receipt)
+                receipt = regex.sub(' ', receipt)
+                return name, receipt
+
+        def find_doses_ingrs(bs0):
+                # парсим имя
+
+            # сужаем область поиска
+            text1 = str(bs0.find('div', 'ingredients-list__content'))
+            bs1 = BeautifulSoup(text1, 'lxml')
+            ingredients = (
+                bs1.find_all(
+                    'span',
+                    'js-tooltip js-tooltip-ingredient'))
+            ingredients = re.sub("<.*?>", " ", str(ingredients))
+            # убираем скобки и получаем список ингредиентов
+            ingredients = ingredients[1:][:-1].split(',  \n')
+            ingredients = [(regex.sub(' ', x).strip()
+                            ).lower() for x in ingredients]
+            # аналогично получаем список доз
+            doses = (
+                bs1.find_all(
+                    'span',
+                    'content-item__measure js-ingredient-measure-amount'))
+
+            doses = re.sub("<.*?>", " ", str(doses))[1:][:-1].split(' ,  ')
+            doses = [regex.sub(' ', x).strip().lower() for x in doses]
+            return doses, ingredients
         regex = re.compile('[^a-zA-Zа-я0-9]!,-?:().')
         if self.answer is None:
             str0 = 'Считываем данные - '
@@ -167,39 +207,11 @@ class LinkGetter:
                 except urllib.HTTPError:
                     pass
                 bs0 = BeautifulSoup(res, 'lxml')
-                # парсим имя
-                name = (bs0.find('h1', 'recipe__name g-h1'))
-                name = re.sub("<.*?>", " ", str(name))
-                name = re.sub('\n', '', name).strip()
-                # сужаем область поиска
-                text1 = str(bs0.find('div', 'ingredients-list__content'))
-                bs1 = BeautifulSoup(text1, 'lxml')
-                ingredients = (
-                    bs1.find_all(
-                        'span',
-                        'js-tooltip js-tooltip-ingredient'))
-                ingredients = re.sub("<.*?>", " ", str(ingredients))
-                # убираем скобки и получаем список ингредиентов
-                ingredients = ingredients[1:][:-1].split(',  \n')
-                ingredients = [(regex.sub(' ', x).strip()
-                                ).lower() for x in ingredients]
-                # аналогично получаем список доз
-                doses = (
-                    bs1.find_all(
-                        'span',
-                        'content-item__measure js-ingredient-measure-amount'))
-
-                doses = re.sub("<.*?>", " ", str(doses))[1:][:-1].split(' ,  ')
-                doses = [regex.sub(' ', x).strip().lower() for x in doses]
-
+                doses, ingredients = find_doses_ingrs(bs0)
+                receipt, name = find_receipt_name(bs0)
                 if name != 'None':
-                    bs2 = str(bs0).split('"recipeInstructions":["')
-                    receipt = bs2[1].split('"],"recipeYield":')
-                    receipt = re.sub('","', '\n', receipt[0])
-                    receipt = re.sub('—', '-', receipt)
-                    receipt = regex.sub(' ', receipt)
                     titles_list.append(name)
-                    ingredients_list.append(list(set(ingredients)))
+                    ingredients_list.append(ingredients)
                     doses_list.append(doses)
                     receipt_list.append(receipt)
                     categories.append(splitted[len(splitted) - 2])
