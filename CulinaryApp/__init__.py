@@ -12,6 +12,7 @@ from Levenshtein import distance
 from string import punctuation
 import sys
 import sqlite3
+from itertools import product
 possible_beginnings = [  # начала адресов
     'https://eda.ru/recepty/zavtraki',
     'https://eda.ru/recepty/osnovnye-blyuda',
@@ -40,6 +41,7 @@ categories_en = [
     'sousy-marinady']
 rus_letters = 'абвгдеёжзийклмпнопрстуфхцчшщъыьэюя'
 PROJECT_DIR = 'C://CulinaryApp'  # project directory
+DATABASE_DIR = PROJECT_DIR + "/Data.db"
 
 
 def save(database_name, tab):  # сохраняем базу данных database_name
@@ -111,28 +113,26 @@ class LinkGetter:
         print('Getting links')
         str0 = 'Ищем для вас ссылки - '
         str1 = ' процентов завершено'
-        for url in self.urls:
-            if len(self.urls) < self.max_num:
-                for possible_beginning in possible_beginnings:
-                    if possible_beginning in url:
-                        soup = BeautifulSoup(requests.get(url).text, 'lxml')
-                        for a in soup.find_all('a'):
-                            try:
-                                if a['href'][:9] == '/recepty/':
-                                    address = 'https://eda.ru' + a['href']
-                                    u1 = address not in self.urls
-                                    u2 = address.count('/') == 5
-                                    if u1 and u2:
-                                        self.urls.append(address)
-                                        i += 1
-                                        u3 = i % self.printstep == 0
-                                        if self.print_ and u3:
-                                            percent = 100 * i / self.max_num
-                                            percent = str(round(percent, 3))
-                                            print(str0 + percent + str1)
-                            except KeyError:
-                                print('KeyError')
-                                pass
+        for url, possible_beginning in product(self.urls, possible_beginnings):
+            if possible_beginning in url and len(self.urls) < self.max_num:
+                soup = BeautifulSoup(requests.get(url).text, 'lxml')
+                for a in soup.find_all('a'):
+                    try:
+                        if a['href'][:9] == '/recepty/':
+                            address = 'https://eda.ru' + a['href']
+                            u1 = address not in self.urls
+                            u2 = address.count('/') == 5
+                            if u1 and u2:
+                                self.urls.append(address)
+                                i += 1
+                                u3 = i % self.printstep == 0
+                                if self.print_ and u3:
+                                    percent = 100 * i / self.max_num
+                                    percent = str(round(percent, 3))
+                                    print(str0 + percent + str1)
+                    except KeyError:
+                        print('KeyError')
+                        pass
     #       функция возвращает таблицу с рецептами
 
     def get_tab(self, print_=False, save=True):  # если save - сохраняем
@@ -146,9 +146,7 @@ class LinkGetter:
         save_ если True, то сохраняем распарсенный DataFrame в .db файл
         '''
         regex = re.compile('[^a-zA-Zа-я0-9]!,-?:().')
-        if self.answer is not None:
-            return self.answer
-        else:
+        if self.answer is None:
             str0 = 'Считываем данные - '
             str1 = ' процентов завершено'
             titles_list = []
@@ -183,8 +181,8 @@ class LinkGetter:
                 ingredients = re.sub("<.*?>", " ", str(ingredients))
                 # убираем скобки и получаем список ингредиентов
                 ingredients = ingredients[1:][:-1].split(',  \n')
-                ingredients = [regex.sub(' ', x) for x in ingredients]
-                ingredients = [(x.strip()).lower() for x in ingredients]
+                ingredients = [(regex.sub(' ', x).strip()
+                                ).lower() for x in ingredients]
                 # аналогично получаем список доз
                 doses = (
                     bs1.find_all(
@@ -192,8 +190,7 @@ class LinkGetter:
                         'content-item__measure js-ingredient-measure-amount'))
 
                 doses = re.sub("<.*?>", " ", str(doses))[1:][:-1].split(' ,  ')
-                doses = [regex.sub(' ', x) for x in doses]
-                doses = [x.strip() for x in doses]
+                doses = [regex.sub(' ', x).strip().lower() for x in doses]
 
                 if name != 'None':
                     bs2 = str(bs0).split('"recipeInstructions":["')
@@ -206,15 +203,15 @@ class LinkGetter:
                     doses_list.append(doses)
                     receipt_list.append(receipt)
                     categories.append(splitted[len(splitted) - 2])
-            answer = pd.DataFrame({
+            self.answer = pd.DataFrame({
                 'name': titles_list,
                 'category': categories,
                 'doses': doses_list,
                 'ingredients': ingredients_list,
                 'receipt': receipt_list})
             if save:
-                save(PROJECT_DIR + "/Data.db", answer)
-            return answer
+                save(DATABASE_DIR, self.answer)
+            return self.answer
 
 
 class ConsoleInteractor():  # класс для взаимодействия через станд.поток
