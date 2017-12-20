@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,10 +15,15 @@ namespace СulinaryServer
 {
     class Program
     {
-        readonly static string _url = "http://localhost";
-        readonly static string _port = "8080";
+        private static string _url;
+        private static string _port;
+        private static string _pythonDir;
         static void Main(string[] args)
         {
+            _url = ConfigurationManager.AppSettings["url"];
+            _port = ConfigurationManager.AppSettings["port"];
+            _pythonDir = ConfigurationManager.AppSettings["python_path"];
+
             var _prefix = String.Format("{0}:{1}/", _url, _port);
 
             HttpListener listener = new HttpListener();
@@ -106,12 +112,11 @@ namespace СulinaryServer
             }
            
         }
-        readonly static string PYTHON_DIR = "C://Users//DK//Anaconda3//python.exe";
 
         public static string run_cmd(string cmd)
         {
             ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = PYTHON_DIR;
+            start.FileName = _pythonDir;
             start.Arguments = cmd; //string.Format("\"{0}\" \"{1}\"", cmd, args);
             start.UseShellExecute = false;// Do not use OS shell
             start.CreateNoWindow = false; // We don't need new window

@@ -78,3 +78,6 @@ C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.AspN
 C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Microsoft.Scripting.Metadata.xml
 C:\CulinaryApp\CulinaryServer\СulinaryServer\bin\Debug\Newtonsoft.Json.xml
 C:\CulinaryApp\CulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.csprojResolveAssemblyReference.cache
+C:\Users\DK\Downloads\CulinaryApp-master\CulinaryApp-master\CulinaryServer\СulinaryServer\bin\Debug\СulinaryServer.exe.config
+C:\Users\DK\Downloads\CulinaryApp-master\CulinaryApp-master\CulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.exe
+C:\Users\DK\Downloads\CulinaryApp-master\CulinaryApp-master\CulinaryServer\СulinaryServer\obj\Debug\СulinaryServer.pdb
