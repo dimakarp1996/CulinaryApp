@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 from lxml import html
 import requests
@@ -41,7 +39,9 @@ categories_en = [
     'sousy-marinady']
 rus_letters = 'абвгдеёжзийклмпнопрстуфхцчшщъыьэюя'
 PROJECT_DIR = 'C://CulinaryApp'  # project directory
-DATABASE_DIR = PROJECT_DIR + "//Data.db"
+if 'CULINARY_APP_DIR' in os.environ:
+    PROJECT_DIR = os.environ['CULINARY_APP_DIR']
+DATABASE_DIR = PROJECT_DIR + '//Data.db'
 
 
 def save(database_name, tab):  # сохраняем базу данных database_name
@@ -136,7 +136,6 @@ class LinkGetter:
                     except KeyError:
                         print('KeyError')
                         pass
-        self.urls = self.urls[len0:]
     #       функция возвращает таблицу с рецептами
 
     def get_tab(self, print_=False, save=True):  # если save - сохраняем
@@ -195,7 +194,7 @@ class LinkGetter:
             categories = []
             receipt_list = []
             i = 0
-            for url in self.urls:
+            for url in self.urls[len(possible_beginnings):]:
                 i += 1
                 if self.print_ and i % self.printstep == 0:  # печать
                     percent = 100 * i / len(self.urls)
@@ -365,7 +364,6 @@ class BackEnd():
     Исходные параметры: tab - pd.DataFrame, с которой работаем
     tab_is_loaded = True, если таблицу загрузили из базы данных
     и False, если нет(по умолчанию True)
-
     Функции: get_total_ingredients
     формирует список всех возможных ингредентов для данной категории
     choose_category делает вызов Interactor-у, чтобы тот выбрал категорию,

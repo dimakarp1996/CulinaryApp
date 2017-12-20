@@ -13,7 +13,7 @@ def test_linkgetter():
     obj.get_links()
     assert sum(
         [link in beginning for link in obj.urls
-         for beginning in possible_beginnings]) == len(possible_beginnings)
+         for beginning in possible_beginnings]) == 12
     tab = obj.get_tab(True, False)
     rus_letters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
     for i in tab.index:
