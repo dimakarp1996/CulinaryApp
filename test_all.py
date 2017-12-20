@@ -22,7 +22,7 @@ def test_linkgetter():
         assert len(tab['doses'][i]) > 0
         assert len(tab['ingredients'][i]) == len(tab['doses'][i])
         assert sum([x in rus_letters
-                    for x in tab['receipt'][i]]) > len(tab['receipt'][i]) / 2
+                    for x in tab['receipt'][i]]) > len(tab['receipt'][i]) / 4
 
 
 def test_backend():

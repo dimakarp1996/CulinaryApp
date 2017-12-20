@@ -203,17 +203,17 @@ class LinkGetter:
                 splitted = url.split('/')
                 try:
                     res = urllib.request.urlopen(url).read()  # делаем реквест
+                    bs0 = BeautifulSoup(res, 'lxml')
+                    doses, ingredients = find_doses_ingrs(bs0)
+                    receipt, name = find_receipt_name(bs0)
+                    if name != 'None':
+                        titles_list.append(name)
+                        ingredients_list.append(ingredients)
+                        doses_list.append(doses)
+                        receipt_list.append(receipt)
+                        categories.append(splitted[len(splitted) - 2])
                 except urllib.HTTPError:
                     pass
-                bs0 = BeautifulSoup(res, 'lxml')
-                doses, ingredients = find_doses_ingrs(bs0)
-                receipt, name = find_receipt_name(bs0)
-                if name != 'None':
-                    titles_list.append(name)
-                    ingredients_list.append(ingredients)
-                    doses_list.append(doses)
-                    receipt_list.append(receipt)
-                    categories.append(splitted[len(splitted) - 2])
             self.answer = pd.DataFrame({
                 'name': titles_list,
                 'category': categories,
