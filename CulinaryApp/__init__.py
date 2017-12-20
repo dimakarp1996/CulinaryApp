@@ -212,7 +212,7 @@ class LinkGetter:
                         doses_list.append(doses)
                         receipt_list.append(receipt)
                         categories.append(splitted[len(splitted) - 2])
-                except urllib.HTTPError:
+                except TypeError:
                     pass
             self.answer = pd.DataFrame({
                 'name': titles_list,
